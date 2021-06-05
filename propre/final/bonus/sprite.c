@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 13:36:55 by agirona           #+#    #+#             */
-/*   Updated: 2021/05/25 19:23:45 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/05 18:56:40 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	get_sprite_position(t_mlx *data, t_sprite *sprite)
 	while (y < data->mapy)
 	{
 		x = 0;
-		while (x <= 43)
+		while (x < data->mapx)
 		{
 			if (data->map[y][x] == '2')
 			{
@@ -101,9 +101,7 @@ void	draw_sprite(t_mlx *data, t_sprite sprite)
 	while (xy.y < data->xpm[xy.txt].height)
 	{
 		xy.x = 0;
-		//valid_sprite(data, &xy.winx, &sprite.angle, height);
-		//tmp = (WIN_X / 2) + tmp * (data->looking - sprite.angle) * WIN_X;
-		xy.winx = ((WIN_X / 2) - (height / 2));
+		valid_sprite(data, &xy.winx, &sprite.angle, height);
 		while (xy.x < data->xpm[xy.txt].width)
 		{
 			set_sprite_pix(data, sprite, xy);

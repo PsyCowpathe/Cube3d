@@ -83,7 +83,7 @@ void	init_player(t_mlx *data)
 	while (++y < data->mapy)
 	{
 		x = -1;
-		while (data->map[y][++x] != '\0')
+		while (++x < data->mapx)
 		{
 			if (data->map[y][x] == 'E')
 				data->looking = 0;
@@ -123,6 +123,7 @@ int	init_struct(t_mlx *data)
 	data->lookdown = 0;
 	data->frame = 1;
 	data->tick = 0;
+	data->advanced = 0;
 	if (data->alldist == NULL)
 		return (0);
 	return (1);

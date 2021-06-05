@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:47:15 by agirona           #+#    #+#             */
-/*   Updated: 2021/05/26 16:54:56 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/05 20:58:35 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,17 @@ int			init_mlx(t_mlx *data, char *str);
 //parsing
 
 int		parsing(t_mlx *data, char *str);
-//int			read_map(t_mlx *data, char *str);
+
+//parsing_utility
+
+
+char	**get_file(char *str, int line);
+char	**get_file_size(t_mlx *data, char *str);
+int		hav_path(t_mlx *data);
+
+//error
+
+int		error(t_mlx *data, int nb, int line);
 
 //raycasting
 
@@ -195,7 +205,7 @@ int			keypress(int key, t_mlx *data);
 int			keyrelease(int key, t_mlx *data);
 void		event(t_mlx *data);
 
-//event.c
+//event
 
 void		moov_player(t_mlx *data);
 void		moov_camera(t_mlx *data);

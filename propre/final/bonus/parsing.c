@@ -6,119 +6,11 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 16:02:00 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/04 20:21:52 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/05 20:58:36 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-char	**get_file(char *str, int line)
-{
-	int		fd;
-	int		i;
-	char	**info;
-	char	*tmp;
-
-	fd = open(str, O_RDONLY);
-	i = 0;
-	info = malloc(sizeof(char *) * (line + 1));
-	if (info == NULL)
-		return (NULL);
-	while (get_next_line(fd, &tmp) == 1)
-		info[i++] = ft_strdup(tmp);
-	info[i] = ft_strdup("\0");
-	return (info);
-}
-
-char	**get_file_size(t_mlx *data, char *str)
-{
-	int		fd;
-	char	*tmp;
-
-	fd = open(str, O_RDONLY);
-	data->infoline = 0;
-	while (get_next_line(fd, &tmp) == 1)
-	{
-		free(tmp);
-		data->infoline++;
-	}
-	close(fd);
-	return (get_file(str, data->infoline));
-}
-
-int		error(t_mlx *data, int nb, int line)
-{
-	ft_putstr("Error\n");
-	if (nb == 1)
-		ft_putstr("Error empty line at start of file.");
-	if (nb == 2)
-	{
-		ft_putstr("Space at start of line : ");
-		ft_putnbr(line);
-	}
-	if (nb == 3)
-	{
-		ft_putstr("Space at end of line : ");
-		ft_putnbr(line);
-	}
-	if (nb == 4)
-		ft_putstr("Empty line at end of file.");
-	if (nb == 5)
-	{
-		ft_putstr("Empty line in map at line : ");
-		ft_putnbr(line);
-	}
-	if (nb == 6)
-	{
-		if (data->no == 0)
-			ft_putstr("Missing north texture.\n");
-		if (data->so == 0)
-			ft_putstr("Missing south texture.\n");
-		if (data->ea == 0)
-			ft_putstr("Missing east texture.\n");
-		if (data->we == 0)
-			ft_putstr("Missing west texture.\n");
-		if (data->f == 0)
-			ft_putstr("Missing floor color.\n");
-		if (data->c == 0)
-			ft_putstr("Missing ceiling color.\n");
-	}
-	if (nb == 7)
-	{
-		ft_putstr("Incorrect information at line : ");
-		ft_putnbr(line);
-	}
-	if (nb == 8)
-	{
-		if (nb == 0)
-			ft_putstr("Invalid caractere in floor color.");
-		else
-			ft_putstr("Invalid caractere in ceiling color.");
-	}
-	if (nb == 9)
-		ft_putstr("Color of floor and ceiling must be between 0 and 255.");
-	if (nb == 10 && line == 0)
-		ft_putstr("Missing space after 'F' in floor color.");
-	else if (nb == 10)
-		ft_putstr("Missing space after 'C' in ceiling color.");
-	if (nb == 11)
-	{
-		if (data->no > 1)
-			ft_putstr("Redefinition of north texture.\n");
-		if (data->so > 1)
-			ft_putstr("Redefinition of south texture.\n");
-		if (data->ea > 1)
-			ft_putstr("Redefinition of east texture.\n");
-		if (data->we > 1)
-			ft_putstr("Redefinition of west texture.\n");
-		if (data->f > 1)
-			ft_putstr("Redefinition of floor color.\n");
-		if (data->c > 1)
-			ft_putstr("Redefinition of ceiling color.\n");
-
-	}
-	return (0);
-}
 
 int		is_map(t_mlx *data, char *str)
 {
@@ -127,51 +19,83 @@ int		is_map(t_mlx *data, char *str)
 	i = 0;
 	while (str[i] && str[i] == ' ')
 		i++;
-	if (str[i] == 'N' && str[i + 1] == 'O')
-	{
-		data->no++;
+	if (str[i] == 'N' && str[i + 1] == 'O' && ++data->no)
 		data->north = ft_strdup(str + i + 2);
-		return (0);
-	}
-	if (str[i] == 'S' && str[i + 1] == 'O')
-	{
-		data->so++;
+	if (str[i] == 'S' && str[i + 1] == 'O' && ++data->so)
 		data->south = ft_strdup(str + i + 1);
-		return (0);
-	}
-	if (str[i] == 'W' && str[i + 1] == 'E')
-	{
-		data->we++;
+	if (str[i] == 'W' && str[i + 1] == 'E' && ++data->we)
 		data->west = ft_strdup(str + i + 1);
-		return (0);
-	}
-	if (str[i] == 'E' && str[i + 1] == 'A')
-	{
-		data->ea++;
+	if (str[i] == 'E' && str[i + 1] == 'A' && ++data->ea)
 		data->east = ft_strdup(str + i + 1);
-		return (0);
-	}
-	if (str[i] == 'F')
-	{
-		data->f++;
+	if (str[i] == 'F' && ++data->f)
 		data->floor = ft_strdup(str + i + 1);
-		return (0);
-	}
-	if (str[i] == 'C')
-	{
-		data->c++;
+	if (str[i] == 'C' && ++data->c)
 		data->ceiling = ft_strdup(str + i + 1);
+	if ((str[i] == 'N' && str[i + 1] == 'O') || (str[i] == 'S' && str[i + 1] == 'O')
+			|| (str[i] == 'W' && str[i + 1] == 'E') 
+			|| (str[i] == 'E' && str[i + 1] == 'A')
+			|| (str[i] == 'F' || str[i] == 'C'))
 		return (0);
-	}
 	return (1);
 }
 
-int		hav_path(t_mlx *data)
+
+int		get_map(t_mlx *data, char **info, int l2)
 {
-	if (data->no > 0 && data->so > 0 && data->ea > 0
-		&& data->we > 0 && data->f > 0 && data->c > 0)
-		return (1);
-	return (0);	
+	int		l1;
+	int		c1;
+	int		c2;
+	int		max;
+
+	l1 = 0;
+	c1 = l2;
+	max = 0;
+	data->map = malloc(sizeof(char *) * data->infoline - l2);
+	if (data->map == NULL)
+		return (error(data, 12, -1));
+	while (c1 < data->infoline)
+	{
+		if (max < (int)ft_strlen(info[c1]))
+				max = ft_strlen(info[c1]);
+		c1++;
+	}
+	data->mapy = data->infoline - l2;
+	data->mapx = max;
+	data->px = -1;
+	data->py = -1;
+	ft_putnbr(data->mapy);
+	while (l2 < data->infoline)
+	{
+		c1 = 0;
+		c2 = 0;
+		data->map[l1] = malloc(sizeof(char) * max);
+		if (data->map[l1] == NULL)
+			return (error(data, 12, -1));
+		data->map[l1][max - 1] = '\0';
+		ft_memset(data->map[l1], '1', max);
+		while (c2 < max)
+		{
+			if (c2 < (int)ft_strlen(info[l2]))
+			{
+				if (c2 < (int)ft_strlen(info[l2]) && info[l2][c2] == ' ')
+					info[l2][c2] = '1';
+				data->map[l1][c1] = info[l2][c2];
+			}
+			if (ft_ischar("NEWS", data->map[l1][c1]) == 1)
+			{
+				data->py = l1;
+				if (data->px == -1)
+					data->px = c1;
+				else
+					return (error(data, 13, -1));
+			}
+			c2++;
+			c1++;
+		}
+		l1++;
+		l2++;
+	}
+	return (1);
 }
 
 int		verif_form(char **info, t_mlx *data)
@@ -188,9 +112,9 @@ int		verif_form(char **info, t_mlx *data)
 	{
 		if (info[i][0] == ' ' && hav_path(data) == 0)
 			return (error(data, 2, i + 1));
-		if (hav_path(data) == 1 && info[i][0] != '\0')
-			map = 1;
-		if (map == 1 && info[i][0] == '\0' && hav_path(data) == 1 && i != data->infoline)
+		if (hav_path(data) == 1 && info[i][0] != '\0' && map == 0)
+			map = i;
+		if (map > 0 && info[i][0] == '\0' && hav_path(data) == 1 && i != data->infoline)
 			return (error(data, 5, i + 1));
 		if (is_map(data, info[i]) == 1 && info[i][0] != '\0' && hav_path(data) == 0)
 			return (error(data, 7, i + 1));
@@ -202,13 +126,15 @@ int		verif_form(char **info, t_mlx *data)
 			ft_putchar(info[i][c]);
 			if (info[i][c + 1] == '\0' && info[i][c] == ' ')
 				return (error(data, 3, i + 1));
-			if (map == 1 && ft_ischar(" 012NSEW", info[i][c]) == 0)
+			if (map > 0 && ft_ischar(" 012NSEW", info[i][c]) == 0)
 				return (error(data, 7, i + 1));
 		}
 		ft_putchar('\n');
 	}
 	if (hav_path(data) == 0)
 		return (error(data, 6, -1));
+	if (get_map(data, info, map) == 0)
+		return (0);
 	return (1);
 }
 
@@ -248,6 +174,11 @@ int		verif_info(t_mlx *data, char *str, int invalid)
 	return (1);
 }
 
+//int		spam_fill(char **map)
+//{
+
+//}
+
 int		parsing(t_mlx *data, char *str)
 {
 	char	**info;
@@ -270,5 +201,7 @@ int		parsing(t_mlx *data, char *str)
 		return (0);
 	if (verif_info(data, data->ceiling, 1) == 0)
 		return (0);
+	//if (spam_fill(data->map) == 0)
+		//return (0);
 	return (1);
 }
