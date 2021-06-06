@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 19:09:50 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/05 20:58:34 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/06 19:32:00 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,9 @@ int		error(t_mlx *data, int nb, int line)
 		ft_putstr("Malloc allocation failed");
 	if (nb == 13)
 		ft_putstr("Sorry but this game doesnt support multiplayer =)\nPlease set only one spawn point.");
+	if (nb == 14)
+		ft_putstr("Map isnt closed !");
+	if (nb == 15)
+		ft_putstr("Game cant start without you ;)\nPlease set a spawn point.");
 	return (0);
 }

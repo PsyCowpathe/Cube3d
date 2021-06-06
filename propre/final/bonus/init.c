@@ -95,8 +95,8 @@ void	init_player(t_mlx *data)
 				data->looking = 270;
 			if (ft_ischar("NEWS", data->map[y][x]) == 1)
 			{
-				data->px = x * data->cubesize + 0.5;
-				data->py = y * data->cubesize + 0.5;
+				data->px = x + 0.5;
+				data->py = y + 0.5;
 				data->map[y][x] = '0';
 			}
 		}

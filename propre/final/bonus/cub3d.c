@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:46:35 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/05 20:58:44 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/06 19:32:02 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	init(t_mlx *data, char *str)
 		return (0);
 	if (init_struct(data) == 0)
 		return (0);
-	init_player(data);
 	data->count = sprite_count(data);
 	data->sprite = malloc(sizeof(t_sprite) * data->count);
 	if (data->sprite == NULL)

@@ -6,99 +6,30 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 16:02:00 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/05 20:58:36 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/06 19:32:02 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int		is_map(t_mlx *data, char *str)
+int	verif_line_form(t_mlx *data, char **info, int i, int *map)
 {
-	int		i;
-
-	i = 0;
-	while (str[i] && str[i] == ' ')
-		i++;
-	if (str[i] == 'N' && str[i + 1] == 'O' && ++data->no)
-		data->north = ft_strdup(str + i + 2);
-	if (str[i] == 'S' && str[i + 1] == 'O' && ++data->so)
-		data->south = ft_strdup(str + i + 1);
-	if (str[i] == 'W' && str[i + 1] == 'E' && ++data->we)
-		data->west = ft_strdup(str + i + 1);
-	if (str[i] == 'E' && str[i + 1] == 'A' && ++data->ea)
-		data->east = ft_strdup(str + i + 1);
-	if (str[i] == 'F' && ++data->f)
-		data->floor = ft_strdup(str + i + 1);
-	if (str[i] == 'C' && ++data->c)
-		data->ceiling = ft_strdup(str + i + 1);
-	if ((str[i] == 'N' && str[i + 1] == 'O') || (str[i] == 'S' && str[i + 1] == 'O')
-			|| (str[i] == 'W' && str[i + 1] == 'E') 
-			|| (str[i] == 'E' && str[i + 1] == 'A')
-			|| (str[i] == 'F' || str[i] == 'C'))
-		return (0);
+	if (info[i][0] == ' ' && hav_path(data) == 0)
+		return (error(data, 2, i + 1));
+	if (*map > 0 && info[i][0] == '\0' && hav_path(data) == 1
+			&& i != data->infoline)
+		return (error(data, 5, i + 1));
+	if (hav_path(data) == 1 && info[i][0] != '\0' && *map == 0)
+		*map = i;
+	if (i == data->infoline - 1 && info[i][0] == '\0')
+		return (error(data, 4, -1));
+	//if (is_map(data, info[i]) == 1 && info[i][0] != '\0'
+	//		&& hav_path(data) == 0)
+	//	return (error(data, 7, i + 1));
 	return (1);
 }
 
-
-int		get_map(t_mlx *data, char **info, int l2)
-{
-	int		l1;
-	int		c1;
-	int		c2;
-	int		max;
-
-	l1 = 0;
-	c1 = l2;
-	max = 0;
-	data->map = malloc(sizeof(char *) * data->infoline - l2);
-	if (data->map == NULL)
-		return (error(data, 12, -1));
-	while (c1 < data->infoline)
-	{
-		if (max < (int)ft_strlen(info[c1]))
-				max = ft_strlen(info[c1]);
-		c1++;
-	}
-	data->mapy = data->infoline - l2;
-	data->mapx = max;
-	data->px = -1;
-	data->py = -1;
-	ft_putnbr(data->mapy);
-	while (l2 < data->infoline)
-	{
-		c1 = 0;
-		c2 = 0;
-		data->map[l1] = malloc(sizeof(char) * max);
-		if (data->map[l1] == NULL)
-			return (error(data, 12, -1));
-		data->map[l1][max - 1] = '\0';
-		ft_memset(data->map[l1], '1', max);
-		while (c2 < max)
-		{
-			if (c2 < (int)ft_strlen(info[l2]))
-			{
-				if (c2 < (int)ft_strlen(info[l2]) && info[l2][c2] == ' ')
-					info[l2][c2] = '1';
-				data->map[l1][c1] = info[l2][c2];
-			}
-			if (ft_ischar("NEWS", data->map[l1][c1]) == 1)
-			{
-				data->py = l1;
-				if (data->px == -1)
-					data->px = c1;
-				else
-					return (error(data, 13, -1));
-			}
-			c2++;
-			c1++;
-		}
-		l1++;
-		l2++;
-	}
-	return (1);
-}
-
-int		verif_form(char **info, t_mlx *data)
+int	verif_form(char **info, t_mlx *data)
 {
 	int		i;
 	int		c;
@@ -110,39 +41,29 @@ int		verif_form(char **info, t_mlx *data)
 	map = 0;
 	while (++i <= data->infoline)
 	{
-		if (info[i][0] == ' ' && hav_path(data) == 0)
-			return (error(data, 2, i + 1));
-		if (hav_path(data) == 1 && info[i][0] != '\0' && map == 0)
-			map = i;
-		if (map > 0 && info[i][0] == '\0' && hav_path(data) == 1 && i != data->infoline)
-			return (error(data, 5, i + 1));
-		if (is_map(data, info[i]) == 1 && info[i][0] != '\0' && hav_path(data) == 0)
-			return (error(data, 7, i + 1));
-		if (i == data->infoline - 1 && info[i][0] == '\0')
-			return (error(data, 4, -1));
+		if (verif_line_form(data, info, i, &map) == 0)
+			return (0);
 		c = -1;
 		while (info[i][++c] != '\0')
 		{
-			ft_putchar(info[i][c]);
 			if (info[i][c + 1] == '\0' && info[i][c] == ' ')
 				return (error(data, 3, i + 1));
 			if (map > 0 && ft_ischar(" 012NSEW", info[i][c]) == 0)
 				return (error(data, 7, i + 1));
 		}
-		ft_putchar('\n');
 	}
 	if (hav_path(data) == 0)
 		return (error(data, 6, -1));
-	if (get_map(data, info, map) == 0)
+	if (hav_path(data) == 1 && get_map(data, info, map) == 0)
 		return (0);
 	return (1);
 }
 
-int		verif_info(t_mlx *data, char *str, int invalid)
+int	verif_info(t_mlx *data, char *str, int invalid)
 {
-	int	i;
-	int	c;
-	int	rgb;
+	int		i;
+	int		c;
+	int		rgb;
 	char	tmp[4];
 
 	i = 0;
@@ -163,7 +84,7 @@ int		verif_info(t_mlx *data, char *str, int invalid)
 		if (!(data->frgb[rgb] >= 0 && data->frgb[rgb] <= 255))
 			return (error(data, 9, -1));
 		if (rgb != 2 && !(str[i] == ',' && (str[i + 1] == ' '
-		|| ft_ischar("0123456789", str[i + 1]))))
+					|| ft_ischar("0123456789", str[i + 1]))))
 			return (error(data, 8, invalid));
 		while (rgb != 2 && str[i] && ft_ischar("0123456789", str[i]) == 0)
 			i++;
@@ -174,14 +95,36 @@ int		verif_info(t_mlx *data, char *str, int invalid)
 	return (1);
 }
 
-//int		spam_fill(char **map)
-//{
+int	verif_player(t_mlx *data)
+{
+	int		i;
+	int		c;
+	int		count;
 
-//}
+	i = 0;
+	count = 0;
+	while (i < data->mapy)
+	{
+		c = 0;
+		while (c < data->mapx)
+		{
+			if (ft_ischar("NEWS", data->map[i][c]) == 1)
+				count++;
+			c++;
+		}
+		i++;
+	}
+	if (count > 1)
+		return (error(data, 13, -1));
+	if (count < 1)
+		return (error(data, 15, -1));
+	return (1);
+}
 
-int		parsing(t_mlx *data, char *str)
+int	parsing(t_mlx *data, char *str)
 {
 	char	**info;
+	char	**cpy;
 
 	data->north = 0;
 	data->south = 0;
@@ -201,7 +144,13 @@ int		parsing(t_mlx *data, char *str)
 		return (0);
 	if (verif_info(data, data->ceiling, 1) == 0)
 		return (0);
-	//if (spam_fill(data->map) == 0)
-		//return (0);
+	if (verif_player(data) == 0)
+		return (0);
+	init_player(data);
+	cpy = copy_map(data);
+	if (cpy == NULL)
+		return (error(data, 12, -1));
+	if (spam_fill(data, cpy, data->px, data->py) == 0)
+		return (error(data, 14, -1));
 	return (1);
 }

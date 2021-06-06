@@ -6,14 +6,13 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/22 18:10:25 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/05 20:58:46 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/06 13:22:17 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 void	copy_sprite(t_sprite *sprite, int i)
-:q
 {
 	t_sprite	tmp[1];
 
