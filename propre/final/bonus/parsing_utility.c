@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 19:15:43 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/06 19:32:00 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/07 15:56:15 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,4 @@ char	**get_file_size(t_mlx *data, char *str)
 	}
 	close(fd);
 	return (get_file(str, data->infoline));
-}
-
-int		hav_path(t_mlx *data)
-{
-	if (data->no > 0 && data->so > 0 && data->ea > 0
-		&& data->we > 0 && data->f > 0 && data->c > 0)
-		return (1);
-	return (0);	
 }

@@ -6,96 +6,151 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 16:02:00 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/06 19:32:02 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/07 15:56:14 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	verif_line_form(t_mlx *data, char **info, int i, int *map)
+int	get_path(t_mlx *data, char *line, int nb)
 {
-	if (info[i][0] == ' ' && hav_path(data) == 0)
-		return (error(data, 2, i + 1));
-	if (*map > 0 && info[i][0] == '\0' && hav_path(data) == 1
-			&& i != data->infoline)
-		return (error(data, 5, i + 1));
-	if (hav_path(data) == 1 && info[i][0] != '\0' && *map == 0)
-		*map = i;
-	if (i == data->infoline - 1 && info[i][0] == '\0')
-		return (error(data, 4, -1));
-	//if (is_map(data, info[i]) == 1 && info[i][0] != '\0'
-	//		&& hav_path(data) == 0)
-	//	return (error(data, 7, i + 1));
+	int		i;
+	int		find;
+
+	i = 0;
+	find = 0;
+	while (line[i] && line[i] == ' ')
+		i++;
+	if (line[i] == 'N' && line[i + 1] == 'O' && ++data->no && ++find)
+		data->north = ft_strdup(line + i + 2);
+	else if (line[i] == 'S' && line[i + 1] == 'O' && ++data->so && ++find)
+		data->south = ft_strdup(line + i + 2);
+	else if (line[i] == 'W' && line[i + 1] == 'E' && ++data->we && ++find)
+		data->west = ft_strdup(line + i + 2);
+	else if (line[i] == 'E' && line[i + 1] == 'A' && ++data->ea && ++find)
+		data->east = ft_strdup(line + i + 2);
+	else if (line[i] == 'F' && ++data->f && ++find)
+		data->floor = ft_strdup(line + i + 1);
+	else if (line[i] == 'C' && ++data->c && ++find)
+		data->ceiling = ft_strdup(line + i + 1);
+	if (find != 0 && i != 0)
+		return (error(data, 2, nb + 1));
+	if (find == 0)
+		return (1);
+	return (2);
+}
+
+int	hav_path(t_mlx *data, int check)
+{
+	if (check == 0)
+	{
+		if (data->no > 0 && data->so > 0 && data->ea > 0
+			&& data->we > 0 && data->f > 0 && data->c > 0)
+			return (1);
+	}
+	else
+	{
+		if (data->no > 1 || data->so > 1 || data->ea > 1
+			|| data->we > 1 || data->f > 1 || data->c > 1)
+			return (error(data, 5, -1));
+		if (data->no > 0 && data->so > 0 && data->ea > 0
+			&& data->we > 0 && data->f > 0 && data->c > 0)
+			return (1);
+		return (error(data, 6, -1));
+	}
+	return (0);
+}
+
+int	check_path(t_mlx *data)
+{
+	if (data->north[0] != ' ')
+		return (error(data, 4, 0));
+	if (data->south[0] != ' ')
+		return (error(data, 4, 1));
+	if (data->east[0] != ' ')
+		return (error(data, 4, 2));
+	if (data->west[0] != ' ')
+		return (error(data, 4, 3));
+	if (data->floor[0] != ' ')
+		return (error(data, 4, 4));
+	if (data->ceiling[0] != ' ')
+		return (error(data, 4, 5));
 	return (1);
 }
 
-int	verif_form(char **info, t_mlx *data)
+int	line_and_path(t_mlx *data, char **info)
 {
 	int		i;
-	int		c;
+	int		ret;
 	int		map;
 
-	i = -1;
-	if (info[i + 1][0] == '\0')
+	i = 0;
+	if (info[i][0] == '\0')
 		return (error(data, 1, -1));
-	map = 0;
-	while (++i <= data->infoline)
+	if (info[data->infoline - 1][0] == '\0')
+		return (error(data, 3, -1));
+	while (i <= data->infoline )
 	{
-		if (verif_line_form(data, info, i, &map) == 0)
+		ret = get_path(data, info[i], i);
+		if (ret == 0)
 			return (0);
-		c = -1;
-		while (info[i][++c] != '\0')
-		{
-			if (info[i][c + 1] == '\0' && info[i][c] == ' ')
-				return (error(data, 3, i + 1));
-			if (map > 0 && ft_ischar(" 012NSEW", info[i][c]) == 0)
-				return (error(data, 7, i + 1));
-		}
+		if (ret == 1 && hav_path(data, 0) == 0 && info[i][0] != '\0')
+			return (error(data, 7, i + 1));
+		if (ret == 2)
+			map = i;
+		i++;
 	}
-	if (hav_path(data) == 0)
-		return (error(data, 6, -1));
-	if (hav_path(data) == 1 && get_map(data, info, map) == 0)
+	if (hav_path(data, 1) == 0)
 		return (0);
+	if (check_path(data) == 0)
+		return (0);
+	return (map);
+}
+
+int	check_color(t_mlx *data, int *rgb, int invalid)
+{
+	int		nb;
+
+	nb = 0;
+	while (nb < 3)
+	{
+		if (rgb[nb] < 0 || rgb[nb] > 255)
+			return (error(data, 8, invalid));
+		nb++;
+	}
 	return (1);
 }
 
-int	verif_info(t_mlx *data, char *str, int invalid)
+int	get_color(t_mlx *data, char *s, int *rgb, int invalid)
 {
 	int		i;
 	int		c;
-	int		rgb;
+	int		nb;
 	char	tmp[4];
 
 	i = 0;
-	rgb = 0;
-	while (str[i] == ' ')
+	nb = -1;
+	while (s[i] == ' ')
 		i++;
-	if (i == 0)
-		return (error(data, 10, invalid));
-	while (str[i])
+	while (s[i])
 	{
-		if (ft_ischar("0123456789", str[i]) == 0)
-			return (error(data, 8, invalid));
+		if (ft_ischar("0123456789", s[i]) == 0)
+			return (error(data, 4, 4 + invalid));
 		c = 0;
-		while (str[i] && ft_ischar("0123456789", str[i]) == 1)
-			tmp[c++] = str[i++];
+		while (s[i] && ft_ischar("0123456789", s[i]) == 1 && c < 3)
+			tmp[c++] = s[i++];
 		tmp[c] = '\0';
-		data->frgb[rgb] = ft_atoi(tmp);
-		if (!(data->frgb[rgb] >= 0 && data->frgb[rgb] <= 255))
-			return (error(data, 9, -1));
-		if (rgb != 2 && !(str[i] == ',' && (str[i + 1] == ' '
-					|| ft_ischar("0123456789", str[i + 1]))))
+		rgb[++nb] = ft_atoi(tmp);
+		if ((nb == 2 && s[i] != '\0') || (nb != 2 && !(s[i] == ','
+					&& (s[i + 1] == ' ' || ft_ischar("0123456789", s[i + 1])))))
 			return (error(data, 8, invalid));
-		while (rgb != 2 && str[i] && ft_ischar("0123456789", str[i]) == 0)
+		while (nb != 2 && s[i] && ft_ischar("0123456789", s[i]) == 0)
 			i++;
-		if (rgb == 2 && i != (int)ft_strlen(str))
-			return (error(data, 8, invalid));
-		rgb++;
 	}
-	return (1);
+	return (check_color(data, rgb, invalid));
 }
 
-int	verif_player(t_mlx *data)
+/*int	verif_player(t_mlx *data)
 {
 	int		i;
 	int		c;
@@ -119,12 +174,31 @@ int	verif_player(t_mlx *data)
 	if (count < 1)
 		return (error(data, 15, -1));
 	return (1);
+}*/
+
+/*int	check_map(t_mlx *data)
+{
+	int		i;
+
+	i = 0;
+	while ()
+	{
+
+	}
+	return (1);
+}*/
+
+int	get_map(t_mlx *data, char **info, int start)
+{
+
 }
 
 int	parsing(t_mlx *data, char *str)
 {
 	char	**info;
 	char	**cpy;
+	int		map;
+	(void)cpy;
 
 	data->north = 0;
 	data->south = 0;
@@ -135,22 +209,16 @@ int	parsing(t_mlx *data, char *str)
 	info = get_file_size(data, str);
 	if (info == NULL)
 		return (0);
-	if (verif_form(info, data) == 0)
+	map = line_and_path(data, info);
+	if (map == 0)
 		return (0);
-	if (data->no > 1 || data->so > 1 || data->ea > 1
-		|| data->we > 1 || data->f > 1 || data->c > 1)
-		return (error(data, 11, -1));
-	if (verif_info(data, data->floor, 0) == 0)
+	if (get_color(data, data->floor, data->frgb, 0) == 0)
 		return (0);
-	if (verif_info(data, data->ceiling, 1) == 0)
+	if (get_color(data, data->ceiling, data->crgb, 1) == 0)
 		return (0);
-	if (verif_player(data) == 0)
+	if (get_map(data, info, map + 1) == 0)
 		return (0);
-	init_player(data);
-	cpy = copy_map(data);
-	if (cpy == NULL)
-		return (error(data, 12, -1));
-	if (spam_fill(data, cpy, data->px, data->py) == 0)
-		return (error(data, 14, -1));
-	return (1);
+	//if (check_map(data) == 0)
+	//	return (0);
+	return (0); //change le a la fin !!!
 }
