@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 17:32:59 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/05 11:11:18 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/07 20:07:00 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ void	keypress2(int key, t_mlx *data)
 	if (key == KEY_PLUS)
 	{
 		data->advanced++;
-		ft_putnbr(data->advanced);
-		ft_putchar('\n');
 		if (data->advanced > 6)
 			data->advanced = 0;
 	}

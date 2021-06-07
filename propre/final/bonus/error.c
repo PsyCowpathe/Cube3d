@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 19:09:50 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/07 15:56:15 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/07 20:38:38 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,17 @@ int		error(t_mlx *data, int nb, int line)
 	if (nb == 4)
 	{
 		if (line == 0)
-			ft_putstr("Invalid caractere in north declaration.");
+			ft_putstr("Invalid characters in north declaration.");
 		else if (line == 1)
-			ft_putstr("Invalid caractere in south declaration.");
+			ft_putstr("Invalid characters in south declaration.");
 		else if (line == 2)
-			ft_putstr("Invalid caractere in east declaration.");
+			ft_putstr("Invalid characters in east declaration.");
 		else if (line == 3)
-			ft_putstr("Invalid caractere in west declaration.");
+			ft_putstr("Invalid characters in west declaration.");
 		else if (line == 4)
-			ft_putstr("Invalid caractere in floor declaration.");
+			ft_putstr("Invalid characters in floor declaration.");
 		else if (line == 5)
-			ft_putstr("Invalid caractere in ceiling declaration.");
+			ft_putstr("Invalid characters in ceiling declaration.");
 	}
 	if (nb == 5)
 	{
@@ -83,6 +83,25 @@ int		error(t_mlx *data, int nb, int line)
 	}
 	if (nb == 9)
 		ft_putstr("Malloc allocation failed");
+	if (nb == 10)
+		ft_putstr("Missing map at bottom of the file.");
+	if (nb == 11)
+	{
+		ft_putstr("Empty line in map at line : ");
+		ft_putnbr(line);
+	}
+	if (nb == 12)
+	{
+		ft_putstr("Invalid characters in map at line : ");
+		ft_putnbr(line);
+	}	
+	if (nb == 13)
+		ft_putstr("Sorry but this game doesnt support multiplayer =)\nPlease set only one spawn point.");
+	if (nb == 14)
+		ft_putstr("Game cant start without you ;)\nPlease set a spawn point.");
+	if (nb == 15)
+		ft_putstr("Map isnt closed !");
+
 	/*if (nb == 5)
 	{
 		ft_putstr("Empty line in map at line : ");

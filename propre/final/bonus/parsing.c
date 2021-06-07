@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 16:02:00 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/07 15:56:14 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/07 20:38:38 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,12 @@ int	hav_path(t_mlx *data, int check)
 			return (error(data, 5, -1));
 		if (data->no > 0 && data->so > 0 && data->ea > 0
 			&& data->we > 0 && data->f > 0 && data->c > 0)
+		{
+			if (data->north == NULL || data->south == NULL
+				|| data->east == NULL || data->west == NULL)
+				return (error(data, 9, -1));
 			return (1);
+		}
 		return (error(data, 6, -1));
 	}
 	return (0);
@@ -150,7 +155,7 @@ int	get_color(t_mlx *data, char *s, int *rgb, int invalid)
 	return (check_color(data, rgb, invalid));
 }
 
-/*int	verif_player(t_mlx *data)
+int	verif_player(t_mlx *data)
 {
 	int		i;
 	int		c;
@@ -172,33 +177,120 @@ int	get_color(t_mlx *data, char *s, int *rgb, int invalid)
 	if (count > 1)
 		return (error(data, 13, -1));
 	if (count < 1)
-		return (error(data, 15, -1));
+		return (error(data, 14, -1));
 	return (1);
-}*/
-
-/*int	check_map(t_mlx *data)
-{
-	int		i;
-
-	i = 0;
-	while ()
-	{
-
-	}
-	return (1);
-}*/
-
-int	get_map(t_mlx *data, char **info, int start)
-{
-
 }
 
+int	get_map_size(t_mlx *data, char **info, int start)
+{
+	int		c;
+
+	c = 0;
+	while (start < data->infoline && info[start][0] == '\0')
+		start++;
+	if (start == data->infoline - 1)
+		return (error(data, 10, -1));
+	data->mapy = data->infoline - start;
+	data->map = malloc(sizeof(char *) * data->mapy);
+	if (data->map == NULL)
+		return (error(data, 9, -1));
+	data->mapx = 0;
+	while (start < data->infoline)
+	{
+		if (data->mapx < (int)ft_strlen(info[start]))
+			data->mapx = ft_strlen(info[start]);
+		start++;
+	}
+	return (1);
+}
+
+int	get_map(t_mlx *data, char **info)
+{
+	int		i;
+	int		c;
+
+	i = data->infoline - data->mapy;
+	c = 0;
+	while (i < data->infoline)
+	{
+		data->map[c] = malloc(sizeof(char) * data->mapx);
+		if (data->map[c] == NULL)
+			return (error(data, 9, -1));
+		data->map[c] = ft_strncpy(data->map[c], info[i], data->mapx);
+		i++;
+		c++;
+	}
+	return (1);
+}
+
+int	check_map(t_mlx *data)
+{
+	int		y;
+	int		x;
+
+	y = 0;
+	while (y < data->mapy)
+	{
+		x = 0;
+		if (data->map[y][0] == '\0')
+			return (error(data, 11, data->infoline - data->mapy + y + 1));
+		while (x < data->mapx)
+		{
+			if (data->map[y][x] != '\0' && ft_ischar(" 012NEWS", data->map[y][x]) == 0)
+				return (error(data, 12, data->infoline - data->mapy + y + 1)); 
+			x++;
+		}
+		y++;
+	}
+	return (1);
+}
+
+int	spam_fill(t_mlx *data, char **map, int x, int y)
+{
+	if (x < 0 || x >= data->mapx || y < 0 || y >= data->mapy)
+		return (0);
+	if (map[y][x] == '.' || map[y][x] == '1')
+		return (1);
+	if (ft_ischar("NEWS02", map[y][x]) == 1)
+		map[y][x] = '.';
+	if (spam_fill(data, map, x + 1, y) == 1
+		&& spam_fill(data, map, x - 1, y) == 1
+		&& spam_fill(data, map, x, y + 1) == 1
+		&& spam_fill(data, map, x, y - 1) == 1)
+		return (1);
+	else
+		return (0);
+}
+
+char	**copy_map(t_mlx *data)
+{
+	int		i;
+	int		c;
+	char	**res;
+
+	i = 0;
+	c = 0;
+	res = malloc(sizeof(char *) * data->mapy);
+	if (res == NULL)
+		return (NULL);
+	while (i < data->mapy)
+	{
+		res[i] = malloc(sizeof(char) * data->mapx);
+		if (res[i] == NULL)
+			return (NULL);
+		res[i] = ft_strncpy(res[i], data->map[c], data->mapx);
+		ft_putstr(res[i]);
+		ft_putchar('\n');
+		i++;
+		c++;
+	}
+	return (res);
+}
 int	parsing(t_mlx *data, char *str)
 {
 	char	**info;
 	char	**cpy;
 	int		map;
-	(void)cpy;
 
 	data->north = 0;
 	data->south = 0;
@@ -216,9 +308,19 @@ int	parsing(t_mlx *data, char *str)
 		return (0);
 	if (get_color(data, data->ceiling, data->crgb, 1) == 0)
 		return (0);
-	if (get_map(data, info, map + 1) == 0)
+	if (get_map_size(data, info, map + 1) == 0)
 		return (0);
-	//if (check_map(data) == 0)
-	//	return (0);
-	return (0); //change le a la fin !!!
+	if (get_map(data, info) == 0)
+		return (0);
+	if (check_map(data) == 0)
+		return (0);
+	if (verif_player(data) == 0)
+		return (0);
+	init_player(data);
+	cpy = copy_map(data);
+	if (cpy == NULL)
+		return (error(data, 9, -1));
+	if (spam_fill(data, cpy, data->px, data->py) == 0)
+		return (error(data, 15, -1));
+	return (1);
 }
