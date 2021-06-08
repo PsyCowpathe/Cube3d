@@ -106,24 +106,13 @@ void	init_player(t_mlx *data)
 int	init_struct(t_mlx *data)
 {
 	data->life = 100;
-	data->god = 0;
-	data->end = 0;
 	data->fov = 60;
 	data->cubesize = 1;
 	data->proj = (WIN_X / 2) / tan((data->fov / 2) * (M_PI / 180));
 	data->gap = (data->fov / WIN_X);
 	data->pheight = WIN_Y / 2;
 	data->alldist = malloc(sizeof(float) * WIN_X);
-	data->last_time = 0;
-	data->time = 0;
-	data->sneak = 0;
-	data->turnleft = 0;
-	data->turnright = 0;
-	data->lookup = 0;
-	data->lookdown = 0;
 	data->frame = 1;
-	data->tick = 0;
-	data->advanced = 0;
 	if (data->alldist == NULL)
 		return (0);
 	return (1);

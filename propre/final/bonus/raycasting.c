@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/04 14:28:35 by agirona           #+#    #+#             */
-/*   Updated: 2021/05/25 20:58:13 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/08 14:10:30 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,9 @@ void	get_closest_wall(t_mlx *data, int x, float patch)
 	int		texture;
 
 	if (data->vdist < data->hdist)
-		distance = data->vdist *  cos(patch * (M_PI / 180));
+		distance = data->vdist * cos(patch * (M_PI / 180));
 	else
-		distance = data->hdist *  cos(patch * (M_PI / 180));
+		distance = data->hdist * cos(patch * (M_PI / 180));
 	wallheight = data->cubesize / distance * data->proj;
 	if (data->hdist <= data->vdist)
 	{

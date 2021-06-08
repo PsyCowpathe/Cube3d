@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:46:35 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/07 20:38:40 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/08 15:34:34 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	game_run(t_mlx *data, char *str)
 		return ;
 	if (sprite(data) == 0)
 		data->end = 1;
-	//system("afplay ../../../sound/musique.mp3 -v 0.1 &");
+	system("afplay ../../../sound/musique.mp3 -v 0.1 &");
 	mlx_hook(data->win, 2, 1L << 0, keypress, data);
 	mlx_hook(data->win, 3, 1L << 1, keyrelease, data);
 	mlx_loop_hook(data->mlx, &refresh, data);
@@ -96,7 +96,7 @@ int	main(int argc, char **argv)
 {
 	t_mlx	data;
 
-	data.screenshot = 0;
+	ft_bzero(&data, sizeof(t_mlx));
 	if (argc == 2 || (argc == 3 && ft_strcmp(argv[2], "--save") == 0))
 	{
 		if (argc == 3 && ft_strcmp(argv[2], "--save") == 0)

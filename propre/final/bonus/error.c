@@ -6,55 +6,35 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 19:09:50 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/07 20:38:38 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/08 15:34:33 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int		error(t_mlx *data, int nb, int line)
+static const char	*g_error_list[] =
 {
-	ft_putstr("Error\n");
-	if (nb == 1)
-		ft_putstr("Error empty line at start of file.");
-	if (nb == 2)
-	{
-		ft_putstr("Space at start of line : ");
-		ft_putnbr(line);
-	}
-	if (nb == 3)
-		ft_putstr("Empty line at end of file.");
-	if (nb == 4)
-	{
-		if (line == 0)
-			ft_putstr("Invalid characters in north declaration.");
-		else if (line == 1)
-			ft_putstr("Invalid characters in south declaration.");
-		else if (line == 2)
-			ft_putstr("Invalid characters in east declaration.");
-		else if (line == 3)
-			ft_putstr("Invalid characters in west declaration.");
-		else if (line == 4)
-			ft_putstr("Invalid characters in floor declaration.");
-		else if (line == 5)
-			ft_putstr("Invalid characters in ceiling declaration.");
-	}
-	if (nb == 5)
-	{
-		if (data->no > 1)
-			ft_putstr("Redefinition of north texture.\n");
-		if (data->so > 1)
-			ft_putstr("Redefinition of south texture.\n");
-		if (data->ea > 1)
-			ft_putstr("Redefinition of east texture.\n");
-		if (data->we > 1)
-			ft_putstr("Redefinition of west texture.\n");
-		if (data->f > 1)
-			ft_putstr("Redefinition of floor color.\n");
-		if (data->c > 1)
-			ft_putstr("Redefinition of ceiling color.\n");
-	}
-	if (nb == 6)
+	"Empty line at start of file.",
+	"Space at start of line : ",
+	"Empty line at end of file.",
+	"Invalid characters at line : ",
+	"Color of floor isnt correctly formated.\n \
+		Tips : Color must be between 0 and 255.",
+	"Color of ceiling isnt correctly formated.\n \
+		Tips : Color must be between 0 and 255.",
+	"Missing map at bottom of the file.",
+	"Malloc allocation failed",
+	"Empty line in map at line : ",
+	"Invalid characters in map at line : ",
+	"Sorry but this game doesnt support multiplayer =)\n \
+		Please set only one spawn point.",
+	"Game cant start without you ;)\nPlease set a spawn point.",
+	"Map isnt closed !",
+};
+
+void	last_error(t_mlx *data, int nb)
+{
+	if (nb == 16)
 	{
 		if (data->no == 0)
 			ft_putstr("Missing north texture.\n");
@@ -69,67 +49,61 @@ int		error(t_mlx *data, int nb, int line)
 		if (data->c == 0)
 			ft_putstr("Missing ceiling color.\n");
 	}
-	if (nb == 7)
+}
+
+void	advanced_error2(t_mlx *data, int nb)
+{
+	if (nb == 15)
 	{
-		ft_putstr("Invalid characters at line : ");
-		ft_putnbr(line);
+		if (data->no > 1)
+			ft_putstr("Redefinition of north texture.\n");
+		if (data->so > 1)
+			ft_putstr("Redefinition of south texture.\n");
+		if (data->ea > 1)
+			ft_putstr("Redefinition of east texture.\n");
+		if (data->we > 1)
+			ft_putstr("Redefinition of west texture.\n");
+		if (data->f > 1)
+			ft_putstr("Redefinition of floor color.\n");
+		if (data->c > 1)
+			ft_putstr("Redefinition of ceiling color.\n");
 	}
-	if (nb == 8)
+	else
+		last_error(data, nb);
+}
+
+void	advanced_error(t_mlx *data, int nb, int line)
+{
+	if (nb == 14)
 	{
 		if (line == 0)
-			ft_putstr("Color of floor isnt correctly formated.\nTips : Color must be between 0 and 255.");
-		if (line == 1)
-			ft_putstr("Color of ceiling isnt correctly formated.\nTips : Color must be between 0 and 255.");
+			ft_putstr("Invalid characters in north declaration.");
+		else if (line == 1)
+			ft_putstr("Invalid characters in south declaration.");
+		else if (line == 2)
+			ft_putstr("Invalid characters in east declaration.");
+		else if (line == 3)
+			ft_putstr("Invalid characters in west declaration.");
+		else if (line == 4)
+			ft_putstr("Invalid characters in floor declaration.");
+		else if (line == 5)
+			ft_putstr("Invalid characters in ceiling declaration.");
 	}
-	if (nb == 9)
-		ft_putstr("Malloc allocation failed");
-	if (nb == 10)
-		ft_putstr("Missing map at bottom of the file.");
-	if (nb == 11)
-	{
-		ft_putstr("Empty line in map at line : ");
-		ft_putnbr(line);
-	}
-	if (nb == 12)
-	{
-		ft_putstr("Invalid characters in map at line : ");
-		ft_putnbr(line);
-	}	
-	if (nb == 13)
-		ft_putstr("Sorry but this game doesnt support multiplayer =)\nPlease set only one spawn point.");
-	if (nb == 14)
-		ft_putstr("Game cant start without you ;)\nPlease set a spawn point.");
-	if (nb == 15)
-		ft_putstr("Map isnt closed !");
+	else
+		advanced_error2(data, nb);
+}
 
-	/*if (nb == 5)
+int	error(t_mlx *data, int nb, int line)
+{
+	ft_putstr("Error\n");
+	if (nb >= 1 && nb <= 13)
 	{
-		ft_putstr("Empty line in map at line : ");
-		ft_putnbr(line);
+		nb = nb - 1;
+		ft_putstr((char *)g_error_list[nb]);
+		if (line != -1)
+			ft_putnbr(line);
 	}
-	if (nb == 3)
-	{
-		ft_putstr("Space at end of line : ");
-		ft_putnbr(line);
-	}
-			if (nb == 8)
-	{
-		if (nb == 0)
-			ft_putstr("Invalid caractere in floor color.");
-		else
-			ft_putstr("Invalid caractere in ceiling color.");
-	}
-	if (nb == 9)
-		ft_putstr("Color of floor and ceiling must be between 0 and 255.");
-	if (nb == 10 && line == 0)
-		ft_putstr("Missing space after 'F' in floor color.");
-	else if (nb == 10)
-		ft_putstr("Missing space after 'C' in ceiling color.");
-			if (nb == 13)
-		ft_putstr("Sorry but this game doesnt support multiplayer =)\nPlease set only one spawn point.");
-	if (nb == 14)
-		ft_putstr("Map isnt closed !");
-	if (nb == 15)
-		ft_putstr("Game cant start without you ;)\nPlease set a spawn point.");*/
+	else
+		advanced_error(data, nb, line);
 	return (0);
 }
