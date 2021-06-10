@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:46:35 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/08 18:10:30 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/10 20:49:35 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,17 @@ int	init(t_mlx *data, char *str)
 	if (init_texture(data) == 0)
 		return (0);
 	if (init_struct(data) == 0)
-		return (0);
+	{
+		ft_putstr("Error\nMalloc allocation failed.");
+		exit_game(data);
+	}
 	data->count = sprite_count(data);
 	data->sprite = malloc(sizeof(t_sprite) * data->count);
 	if (data->sprite == NULL)
-		return (0);
+	{
+		ft_putstr("Error\nMalloc allocation failed.");
+		exit_game(data);
+	}
 	get_sprite_position(data, data->sprite);
 	return (1);
 }
@@ -68,7 +74,9 @@ int	refresh(t_mlx *data)
 		if (data->save == 1)
 		{
 			data->end = 1;
+			bmp_header(&data, &data.bmpheader);
 			take_screenshot(data);
+			free(data->bmpheader);
 		}
 		data->time += 1;
 		data->last_time = current_time;
@@ -101,10 +109,7 @@ int	main(int argc, char **argv)
 	if (argc == 2 || (argc == 3 && ft_strcmp(argv[2], "--save") == 0))
 	{
 		if (argc == 3 && ft_strcmp(argv[2], "--save") == 0)
-		{
 			data.save = 1;
-			bmp_header(&data, &data.bmpheader);
-		}
 		game_run(&data, argv[1]);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/04 14:26:47 by agirona           #+#    #+#             */
-/*   Updated: 2021/05/24 21:00:44 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/10 20:49:33 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ float	*rotate(float *centerxy, float *pointxy, float angle)
 	float	tmpy;
 
 	newxy = malloc(sizeof(float) * 2);
+	if (newxy == NULL)
+		return (NULL);
 	angle = angle * -1;
 	newxy[0] = pointxy[0] - centerxy[0];
 	newxy[1] = pointxy[1] - centerxy[1];

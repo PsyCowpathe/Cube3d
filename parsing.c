@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 16:02:00 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/08 18:10:30 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/10 20:49:28 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,17 @@ int	get_path(t_mlx *data, char *line, int nb)
 	find = 0;
 	while (line[i] && line[i] == ' ')
 		i++;
-	if (line[i] == 'N' && line[i + 1] == 'O' && ++data->no && ++find)
+	if (line[i] == 'N' && line[i + 1] == 'O' && ++find && ++data->no < 2 )
 		data->north = ft_strdup(line + i + 2);
-	else if (line[i] == 'S' && line[i + 1] == 'O' && ++data->so && ++find)
+	else if (line[i] == 'S' && line[i + 1] == 'O' && ++find && ++data->so < 2)
 		data->south = ft_strdup(line + i + 2);
-	else if (line[i] == 'W' && line[i + 1] == 'E' && ++data->we && ++find)
+	else if (line[i] == 'W' && line[i + 1] == 'E' && ++find && ++data->we < 2)
 		data->west = ft_strdup(line + i + 2);
-	else if (line[i] == 'E' && line[i + 1] == 'A' && ++data->ea && ++find)
+	else if (line[i] == 'E' && line[i + 1] == 'A' && ++find && ++data->ea < 2)
 		data->east = ft_strdup(line + i + 2);
-	else if (line[i] == 'F' && ++data->f && ++find)
+	else if (line[i] == 'F' && ++find && ++data->f < 2)
 		data->floor = ft_strdup(line + i + 1);
-	else if (line[i] == 'C' && ++data->c && ++find)
+	else if (line[i] == 'C' && ++find && ++data->c < 2)
 		data->ceiling = ft_strdup(line + i + 1);
 	if (find != 0 && i != 0)
 		return (error(data, 2, nb + 1));
@@ -126,23 +126,22 @@ int	get_color(t_mlx *data, char *s, int *rgb, int invalid)
 
 int	parsing(t_mlx *data, char *str)
 {
-	char	**info;
 	char	**cpy;
 	int		map;
 
-	info = get_file_size(data, str);
-	if (info == NULL)
-		return (0);
-	map = line_and_path(data, info);
+	data->info = get_file_size(data, str);
+	if (data->info == NULL)
+		return (error(data, 8, -1));
+	map = line_and_path(data, data->info);
 	if (map == 0)
 		return (0);
 	if (get_color(data, data->floor, data->frgb, 0) == 0)
 		return (0);
 	if (get_color(data, data->ceiling, data->crgb, 1) == 0)
 		return (0);
-	if (get_map_size(data, info, map + 1) == 0)
+	if (get_map_size(data, data->info, map + 1) == 0)
 		return (0);
-	if (!get_map(data, info) || !check_map(data) || !verif_player(data))
+	if (!get_map(data, data->info) || !check_map(data) || !verif_player(data))
 		return (0);
 	init_player(data);
 	cpy = copy_map(data);

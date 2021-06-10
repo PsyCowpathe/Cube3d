@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 17:32:59 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/08 17:28:00 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/10 20:49:33 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,13 @@ void	event(t_mlx *data)
 {
 	if (data->forward == 1 || data->right == 1
 		|| data->left == 1 || data->backward == 1)
-		moov_player(data);
+	{
+		if (moov_player(data) == 0)
+		{
+			ft_putstr("Error\nMalloc allocation failed.");
+			exit_game(data);
+		}
+	}
 	moov_camera(data);
 	action(data, data->sprite);
 	if (data->end == 1)

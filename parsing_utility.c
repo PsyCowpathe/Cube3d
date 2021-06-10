@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 19:15:43 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/08 15:34:37 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/10 20:49:30 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@ char	**get_file(char *str, int line)
 	if (info == NULL)
 		return (NULL);
 	while (get_next_line(fd, &tmp) == 1)
+	{
 		info[i++] = ft_strdup(tmp);
+		free(tmp);
+	}
+	free(tmp);
 	info[i] = ft_strdup("\0");
 	return (info);
 }
@@ -41,6 +45,7 @@ char	**get_file_size(t_mlx *data, char *str)
 		free(tmp);
 		data->infoline++;
 	}
+	free(tmp);
 	close(fd);
 	return (get_file(str, data->infoline));
 }

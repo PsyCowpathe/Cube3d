@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 17:32:59 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/08 18:10:28 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/10 20:49:34 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	secondary_action(t_mlx *data)
 		data->screenshot = 0;
 		bmp_header(data, &data->bmpheader);
 		take_screenshot(data);
+		free(data->bmpheader);
 	}
 }
 
@@ -55,7 +56,7 @@ void	action(t_mlx *data, t_sprite *sprite)
 	secondary_action(data);
 }
 
-void	moov_player(t_mlx *data)
+int	moov_player(t_mlx *data)
 {
 	float	*tmp;
 	float	centerxy[2];
@@ -68,13 +69,20 @@ void	moov_player(t_mlx *data)
 	pointxy[0] = data->px + 0.50;
 	pointxy[1] = data->py;
 	tmp = rotate(centerxy, pointxy, direction);
+	if (tmp == NULL)
+		return (0);
 	if (ft_ischar("02", data->map[(int)(tmp[1])][(int)(tmp[0])]))
 	{
+		free(tmp);
 		pointxy[0] = data->px + 0.15;
 		tmp = rotate(centerxy, pointxy, direction);
+		if (tmp == NULL)
+			return (0);
 		data->px = tmp[0];
 		data->py = tmp[1];
 	}
+	free(tmp);
+	return (1);
 }
 
 void	moov_camera(t_mlx *data)
@@ -106,27 +114,8 @@ void	moov_camera(t_mlx *data)
 	}
 }
 
-void	free_all(t_mlx *data)
-{
-	int		i;
-
-	i = 0;
-	while (i < 8)
-		mlx_destroy_image(data->mlx, data->xpm[i++].img);
-	i = 0;
-	while (i < data->mapy)
-	{
-		free(data->map[i]);
-		i++;
-	}
-	free(data->map);
-}
-
 int	exit_game(t_mlx *data)
 {
-	char	*mall;
-
-	mall = malloc(sizeof(char) * 5);
 	free_all(data);
 	system("killall afplay");
 	mlx_destroy_image(data->mlx, data->img);

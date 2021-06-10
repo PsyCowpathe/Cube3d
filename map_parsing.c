@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 18:44:24 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/08 18:10:29 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/10 20:49:29 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,13 @@ char	**copy_map(t_mlx *data)
 	{
 		res[i] = malloc(sizeof(char) * data->mapx);
 		if (res[i] == NULL)
+		{
+			while (i >= 0)
+				free(res[i--]);
+			free(res);
 			return (NULL);
+		}
 		res[i] = ft_strncpy(res[i], data->map[c], data->mapx);
-		ft_putstr(res[i]);
-		ft_putchar('\n');
 		i++;
 		c++;
 	}

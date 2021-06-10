@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 19:09:50 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/08 15:34:33 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/10 20:49:29 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,6 @@ int	error(t_mlx *data, int nb, int line)
 	}
 	else
 		advanced_error(data, nb, line);
+	free_all(data);
 	return (0);
 }
