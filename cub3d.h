@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:47:15 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/08 18:22:37 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/10 20:49:35 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 
 //tmp
 # include <stdio.h>
-# define NORTH "../textures/Nwall.xpm"
-# define SOUTH "../textures/Swall.xpm"
-# define EAST "../textures/Ewall.xpm"
-# define WEST "../textures/Wwall.xpm"
-# define SPRITE "../textures/sprite.xpm"
-# define SKY "../textures/sky.xpm"
-# define HAND "../textures/hand.xpm"
-# define REV_SPRITE "../textures/reverse_sprite.xpm"
+# define NORTH "textures/Nwall.xpm"
+# define SOUTH "textures/Swall.xpm"
+# define EAST "textures/Ewall.xpm"
+# define WEST "textures/Wwall.xpm"
+# define SPRITE "textures/sprite.xpm"
+# define SKY "textures/sky.xpm"
+# define HAND "textures/hand.xpm"
+# define REV_SPRITE "textures/reverse_sprite.xpm"
 # define DIRT 0xB68831
 # define ROT 3
 //tmp
 
-# include "../libft/libft.h"
-# include "../mlx/mlx.h"
+# include "libft/libft.h"
+# include "mlx/mlx.h"
 # include <math.h>
 # include <sys/time.h>
 # include <fcntl.h>
@@ -86,6 +86,7 @@ typedef struct s_sprite
 typedef struct s_mlx
 {
 	int			infoline;
+	char		**info;
 	void		*mlx;
 	void		*win;
 	void		*img;
@@ -215,7 +216,7 @@ void		event(t_mlx *data);
 
 //event
 
-void		moov_player(t_mlx *data);
+int			moov_player(t_mlx *data);
 void		moov_camera(t_mlx *data);
 void		action(t_mlx *data, t_sprite *sprite);
 int			exit_game(t_mlx *data);
@@ -243,6 +244,7 @@ float		angle_range(float angle);
 
 void		init_column_draw(t_mlx *data, t_scale *xy, int height, int x);
 long long	get_time(void);
+void		free_all(t_mlx *data);
 
 //sprite_utility
 
