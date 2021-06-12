@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:46:35 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/10 20:49:35 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/12 19:40:33 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,14 @@ void	raycasting(t_mlx *data)
 		get_first_vert(data, ray);
 		get_closest_vertical_wall(data, ray);
 		get_closest_horizontal_wall(data, ray);
-		get_closest_wall(data, x, data->looking - ray);
+		get_closest_wall(data, x, ray, data->looking - ray);
 		patch = patch + data->gap;
 		ray = ray + data->gap;
 		x--;
 	}
+	ft_putchar('\n');
+	ft_putchar('\n');
+	ft_putchar('\n');
 }
 
 int	refresh(t_mlx *data)
@@ -74,7 +77,7 @@ int	refresh(t_mlx *data)
 		if (data->save == 1)
 		{
 			data->end = 1;
-			bmp_header(&data, &data.bmpheader);
+			bmp_header(data, &data->bmpheader);
 			take_screenshot(data);
 			free(data->bmpheader);
 		}

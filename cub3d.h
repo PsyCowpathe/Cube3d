@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:47:15 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/10 20:49:35 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/12 21:51:45 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,8 @@ typedef struct s_mlx
 	int			god;
 	int			advanced;
 
+	int			correctionx;
+	int			correctiony;
 	float		hdist;
 	float		vdist;
 	float		*alldist;
@@ -196,7 +198,7 @@ int			error(t_mlx *data, int nb, int line);
 
 //raycasting
 
-void		get_closest_wall(t_mlx *data, int x, float patch);
+void		get_closest_wall(t_mlx *data, int x, float ray, float patch);
 void		get_closest_horizontal_wall(t_mlx *data, float ray);
 void		get_closest_vertical_wall(t_mlx *data, float ray);
 void		get_first_vert(t_mlx *data, float ray);
@@ -245,6 +247,7 @@ float		angle_range(float angle);
 void		init_column_draw(t_mlx *data, t_scale *xy, int height, int x);
 long long	get_time(void);
 void		free_all(t_mlx *data);
+int			is_possible(t_mlx *data, float *tmp);
 
 //sprite_utility
 

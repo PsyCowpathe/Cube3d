@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 17:32:59 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/10 20:49:34 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/12 17:09:42 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int	moov_player(t_mlx *data)
 	tmp = rotate(centerxy, pointxy, direction);
 	if (tmp == NULL)
 		return (0);
+	if (is_possible(data, tmp) == 1)
+	{
 	if (ft_ischar("02", data->map[(int)(tmp[1])][(int)(tmp[0])]))
 	{
 		free(tmp);
@@ -80,6 +82,7 @@ int	moov_player(t_mlx *data)
 			return (0);
 		data->px = tmp[0];
 		data->py = tmp[1];
+	}
 	}
 	free(tmp);
 	return (1);
@@ -112,6 +115,8 @@ void	moov_camera(t_mlx *data)
 			data->pheight = data->pheight - 5;
 		}
 	}
+	if (data->looking == 45 || data->looking == 135 || data->looking == 225 || data->looking == 315)
+		data->looking += 2;
 }
 
 int	exit_game(t_mlx *data)
@@ -120,7 +125,7 @@ int	exit_game(t_mlx *data)
 	system("killall afplay");
 	mlx_destroy_image(data->mlx, data->img);
 	mlx_destroy_window(data->mlx, data->win);
-	while (1);
+	//while (1);
 	exit(EXIT_SUCCESS);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 19:09:50 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/10 20:49:29 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/12 15:33:38 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ static const char	*g_error_list[] =
 	"Space at start of line : ",
 	"Empty line at end of file.",
 	"Invalid characters at line : ",
-	"Color of floor isnt correctly formated.\n \
-		Tips : Color must be between 0 and 255.",
-	"Color of ceiling isnt correctly formated.\n \
-		Tips : Color must be between 0 and 255.",
+	"Color of floor isnt correctly formated. \
+		\nTips : Color must be between 0 and 255.",
+	"Color of ceiling isnt correctly formated. \
+		\nTips : Color must be between 0 and 255.",
 	"Missing map at bottom of the file.",
 	"Malloc allocation failed",
 	"Empty line in map at line : ",
 	"Invalid characters in map at line : ",
-	"Sorry but this game doesnt support multiplayer =)\n \
-		Please set only one spawn point.",
+	"Sorry but this game doesnt support multiplayer =) \
+		\nPlease set only one spawn point.",
 	"Game cant start without you ;)\nPlease set a spawn point.",
 	"Map isnt closed !",
 };

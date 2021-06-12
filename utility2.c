@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/22 20:27:52 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/10 20:49:31 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/12 21:51:44 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,66 @@ void	free_all(t_mlx *data)
 	}
 	if (data->map != NULL)
 		free(data->map);
+}
+
+int	is_it_possible(t_mlx *data, float *tmp)
+{
+	float	x;
+	float	y;
+
+	x = data->px;
+	y = data->py;
+	if (x < tmp[0] && y > tmp[1])
+	{
+		while (x < tmp[0] && y > tmp[1])
+		{
+			x += 0.1;
+			y -= 0.1;
+			if (!ft_ischar("02", data->map[(int)y][(int)x]))
+				return (0);
+		}
+	}
+	else if (x < tmp[0] && y < tmp[1])
+	{
+		while (x < tmp[0] && y < tmp[1])
+		{
+			x += 0.1;
+			y += 0.1;
+			if (!ft_ischar("02", data->map[(int)y][(int)x]))
+				return (0);
+		}
+	}
+	return (1);
+}
+
+int	is_possible(t_mlx *data, float *tmp)
+{
+	float	x;
+	float	y;
+
+	x = data->px;
+	y = data->py;
+	if (x > tmp[0] && y > tmp[1])
+	{
+		while (x > tmp[0] && y > tmp[1])
+		{
+			x -= 0.1;
+			y -= 0.1;
+			if (!ft_ischar("02", data->map[(int)y][(int)x]))
+				return (0);
+		}
+	}
+	else if (x > tmp[0] && y < tmp[1])
+	{
+		while (x > tmp[0] && y < tmp[1])
+		{
+			x -= 0.1;
+			y += 0.1;
+			if (!ft_ischar("02", data->map[(int)y][(int)x]))
+				return (0);
+		}
+	}
+	else
+		return (is_it_possible(data, tmp));
+	return (1);
 }

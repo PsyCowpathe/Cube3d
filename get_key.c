@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 17:32:59 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/10 20:49:33 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/12 17:49:28 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	event(t_mlx *data)
 
 void	keypress2(int key, t_mlx *data)
 {
-	ft_putnbr(key);
 	if (key == KEY_SPACE)
 		data->fight = 1;
 	if (key == KEY_SCREENSHOT)
