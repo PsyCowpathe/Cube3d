@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/04 14:07:32 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/12 21:51:43 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/13 13:39:43 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,21 @@
 
 void	set_clear_pix(t_mlx *data, t_scale *xy, float vgap)
 {
+	int		color;
+
+	color = create_trgb(0, data->frgb[0], data->frgb[1], data->frgb[2]);
 	xy->y -= 1;
 	if (data->advanced >= 5)
 	{
 		if (xy->x < (WIN_X / 2))
 			data->addr[(int)xy->y * WIN_X + (int)xy->x] = shading(
-					(xy->vdist * 0.5) + xy->hdist, 0XFFFFFF);
+					(xy->vdist * 0.5) + xy->hdist, color);
 		else
 			data->addr[(int)xy->y * WIN_X + (int)xy->x] = shading(
-					xy->hdist - (xy->vdist * 0.5), 0xFFFFFF);
+					xy->hdist - (xy->vdist * 0.5), color);
 	}
 	else
-		data->addr[(int)xy->y * WIN_X + (int)xy->x] = 0XFFFFFF;
+		data->addr[(int)xy->y * WIN_X + (int)xy->x] = color;
 	xy->vdist -= vgap;
 	xy->y += 1;
 }
@@ -47,7 +50,7 @@ void	clear_win(t_mlx *data)
 	{
 		xy.x = -1;
 		while (++xy.x < WIN_X)
-			data->addr[(int)xy.y * WIN_X + (int)xy.x] = 0x0000FF;
+			data->addr[(int)xy.y * WIN_X + (int)xy.x] = create_trgb(0, data->crgb[0], data->crgb[1], data->crgb[2]);
 	}
 	while (xy.y++ < WIN_Y)
 	{

@@ -18,12 +18,12 @@ int	init_mlx(t_mlx *data, char *str)
 	data->mlx = mlx_init();
 	data->win = mlx_new_window(data->mlx, WIN_X, WIN_Y, str);
 	if (data->win == NULL)
-		return (0);
+		return (error(data, 14, -1, 1));
 	data->img = mlx_new_image(data->mlx, WIN_X, WIN_Y);
 	if (data->img == NULL)
 	{
 		mlx_destroy_window(data->mlx, data->win);
-		return (0);
+		return (error(data, 15, -1, 1));
 	}
 	data->addr = (int *)mlx_get_data_addr(data->img,
 			&data->bits, &data->linelen, &data->endian);
@@ -33,13 +33,13 @@ int	init_mlx(t_mlx *data, char *str)
 void	file_to_img(t_mlx *data)
 {
 	data->xpm[0].img = mlx_xpm_file_to_image(data->mlx,
-			NORTH, &data->xpm[0].width, &data->xpm[0].height);
+			data->north + 1, &data->xpm[0].width, &data->xpm[0].height);
 	data->xpm[1].img = mlx_xpm_file_to_image(data->mlx,
-			SOUTH, &data->xpm[1].width, &data->xpm[1].height);
+			data->south + 1, &data->xpm[1].width, &data->xpm[1].height);
 	data->xpm[2].img = mlx_xpm_file_to_image(data->mlx,
-			EAST, &data->xpm[2].width, &data->xpm[2].height);
+			data->east + 1, &data->xpm[2].width, &data->xpm[2].height);
 	data->xpm[3].img = mlx_xpm_file_to_image(data->mlx,
-			WEST, &data->xpm[3].width, &data->xpm[3].height);
+			data->west + 1, &data->xpm[3].width, &data->xpm[3].height);
 	data->xpm[4].img = mlx_xpm_file_to_image(data->mlx,
 			SPRITE, &data->xpm[4].width, &data->xpm[4].height);
 	data->xpm[5].img = mlx_xpm_file_to_image(data->mlx,
@@ -60,6 +60,7 @@ int	init_texture(t_mlx *data)
 	{
 		if (data->xpm[i].img == NULL)
 		{
+			error(data, 19, i, 1);
 			while (--i >= 0)
 				mlx_destroy_image(data->mlx, data->xpm[i].img);
 			mlx_destroy_image(data->mlx, data->img);
@@ -114,6 +115,6 @@ int	init_struct(t_mlx *data)
 	data->alldist = malloc(sizeof(float) * WIN_X);
 	data->frame = 1;
 	if (data->alldist == NULL)
-		return (0);
+		return (error(data, 8, -1, 1));
 	return (1);
 }

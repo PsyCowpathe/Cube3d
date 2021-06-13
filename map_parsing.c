@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 18:44:24 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/10 20:49:29 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/13 19:10:07 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ int	get_map_size(t_mlx *data, char **info, int start)
 	while (start < data->infoline && info[start][0] == '\0')
 		start++;
 	if (start == data->infoline)
-		return (error(data, 7, -1));
+		return (error(data, 7, -1, 1));
 	data->mapy = data->infoline - start;
 	data->map = malloc(sizeof(char *) * data->mapy);
 	if (data->map == NULL)
-		return (error(data, 8, -1));
+		return (error(data, 8, -1, 1));
 	while (start < data->infoline)
 	{
 		if (data->mapx < (int)ft_strlen(info[start]))
@@ -73,7 +73,7 @@ int	get_map(t_mlx *data, char **info)
 	{
 		data->map[c] = malloc(sizeof(char) * data->mapx);
 		if (data->map[c] == NULL)
-			return (error(data, 8, -1));
+			return (error(data, 8, -1, 1));
 		data->map[c] = ft_strncpy(data->map[c], info[i], data->mapx);
 		i++;
 		c++;
@@ -91,12 +91,12 @@ int	check_map(t_mlx *data)
 	{
 		x = 0;
 		if (data->map[y][0] == '\0')
-			return (error(data, 9, data->infoline - data->mapy + y + 1));
+			return (error(data, 9, data->infoline - data->mapy + y + 1, 1));
 		while (x < data->mapx)
 		{
 			if (data->map[y][x] != '\0'
 					&& ft_ischar(" 012NEWS", data->map[y][x]) == 0)
-				return (error(data, 10, data->infoline - data->mapy + y + 1));
+				return (error(data, 10, data->infoline - data->mapy + y + 1, 1));
 			x++;
 		}
 		y++;

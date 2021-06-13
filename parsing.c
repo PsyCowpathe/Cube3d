@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 16:02:00 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/12 17:49:27 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/13 19:10:07 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	get_path(t_mlx *data, char *line, int nb)
 	else if (line[i] == 'C' && ++find && ++data->c < 2)
 		data->ceiling = ft_strdup(line + i + 1);
 	if (find != 0 && i != 0)
-		return (error(data, 2, nb + 1));
+		return (error(data, 2, nb + 1, 1));
 	if (find == 0)
 		return (1);
 	return (2);
@@ -52,16 +52,16 @@ int	hav_path(t_mlx *data, int check)
 	{
 		if (data->no > 1 || data->so > 1 || data->ea > 1
 			|| data->we > 1 || data->f > 1 || data->c > 1)
-			return (error(data, 15, -1));
+			return (error(data, 17, -1, 1));
 		if (data->no > 0 && data->so > 0 && data->ea > 0
 			&& data->we > 0 && data->f > 0 && data->c > 0)
 		{
 			if (data->north == NULL || data->south == NULL
 				|| data->east == NULL || data->west == NULL)
-				return (error(data, 8, -1));
+				return (error(data, 8, -1, 1));
 			return (1);
 		}
-		return (error(data, 16, -1));
+		return (error(data, 18, -1, 1));
 	}
 	return (0);
 }
@@ -74,16 +74,19 @@ int	line_and_path(t_mlx *data, char **info)
 
 	i = 0;
 	if (info[i][0] == '\0')
-		return (error(data, 1, -1));
+		return (error(data, 1, -1, 1));
 	if (info[data->infoline - 1][0] == '\0')
-		return (error(data, 3, -1));
+		return (error(data, 3, -1, 1));
 	while (i <= data->infoline)
 	{
 		ret = get_path(data, info[i], i);
 		if (ret == 0)
 			return (0);
 		if (ret == 1 && hav_path(data, 0) == 0 && info[i][0] != '\0')
-			return (error(data, 4, i + 1));
+		{
+			error(data, 18, -1, 1);
+			return (error(data, 4, i + 1, 0));
+		}
 		if (ret == 2)
 			map = i;
 		i++;
@@ -109,7 +112,7 @@ int	get_color(t_mlx *data, char *s, int *rgb, int invalid)
 	while (s[i])
 	{
 		if (ft_ischar("0123456789", s[i]) == 0)
-			return (error(data, 14, 4 + invalid));
+			return (error(data, 5 + invalid, -1, 1));
 		c = 0;
 		while (s[i] && ft_ischar("0123456789", s[i]) == 1 && c < 3)
 			tmp[c++] = s[i++];
@@ -117,8 +120,10 @@ int	get_color(t_mlx *data, char *s, int *rgb, int invalid)
 		rgb[++nb] = ft_atoi(tmp);
 		if ((nb == 2 && s[i] != '\0') || (nb != 2 && !(s[i] == ','
 					&& (s[i + 1] == ' ' || ft_ischar("0123456789", s[i + 1])))))
-			return (error(data, 5 + invalid, -1));
-		while (nb != 2 && s[i] && ft_ischar("0123456789", s[i]) == 0)
+			return (error(data, 5 + invalid, -1, 1));
+		if (s[i] && s[i] == ',')
+			i++;
+		while (nb != 2 && s[i] && s[i] == ' ')
 			i++;
 	}
 	return (check_color(data, rgb, invalid));
@@ -131,7 +136,7 @@ int	parsing(t_mlx *data, char *str)
 
 	data->info = get_file_size(data, str);
 	if (data->info == NULL)
-		return (error(data, 8, -1));
+		return (error(data, 8, -1, 1));
 	map = line_and_path(data, data->info);
 	if (map == 0)
 		return (0);
@@ -146,9 +151,9 @@ int	parsing(t_mlx *data, char *str)
 	init_player(data);
 	cpy = copy_map(data);
 	if (cpy == NULL)
-		return (error(data, 8, -1));
+		return (error(data, 8, -1, 1));
 	if (spam_fill(data, cpy, data->px, data->py) == 0)
-		return (error(data, 13, -1));
+		return (error(data, 13, -1, 1));
 	int		v = 0;
 	while (v < data->mapy)
 		free(cpy[v++]);

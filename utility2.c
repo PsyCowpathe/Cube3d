@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/22 20:27:52 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/12 21:51:44 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/13 19:10:05 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,27 @@ void	free_all(t_mlx *data)
 	int		i;
 
 	i = 0;
-	while (i < data->infoline + 1)
+	while (data->info != NULL && i < data->infoline + 1)
 	{
 		if (data->info[i] != NULL)
 			free(data->info[i]);
+		data->info[i] = NULL;
 		i++;
 	}
 	if (data->info != NULL)
 		free(data->info);
+	data->info = NULL;
 	i = 0;
-	while (i < data->mapy)
+	while (data->map != NULL && i < data->mapy)
 	{
 		if (data->map[i] != NULL)
 			free(data->map[i]);
+		data->map[i] = NULL;
 		i++;
 	}
 	if (data->map != NULL)
 		free(data->map);
+	data->map = NULL;
 }
 
 int	is_it_possible(t_mlx *data, float *tmp)
@@ -120,4 +124,9 @@ int	is_possible(t_mlx *data, float *tmp)
 	else
 		return (is_it_possible(data, tmp));
 	return (1);
+}
+
+int	create_trgb(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
 }

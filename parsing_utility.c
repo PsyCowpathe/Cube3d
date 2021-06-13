@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 19:15:43 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/10 20:49:30 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/13 19:10:06 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	check_color(t_mlx *data, int *rgb, int invalid)
 	while (nb < 3)
 	{
 		if (rgb[nb] < 0 || rgb[nb] > 255)
-			return (error(data, 5 + invalid, -1));
+			return (error(data, 5 + invalid, -1, 1));
 		nb++;
 	}
 	return (1);
@@ -84,25 +84,32 @@ int	verif_player(t_mlx *data)
 		i++;
 	}
 	if (count > 1)
-		return (error(data, 11, -1));
+		return (error(data, 11, -1, 1));
 	if (count < 1)
-		return (error(data, 12, -1));
+		return (error(data, 12, -1, 1));
 	return (1);
 }
 
 int	check_path(t_mlx *data)
 {
-	if (data->north[0] != ' ')
-		return (error(data, 14, 0));
-	if (data->south[0] != ' ')
-		return (error(data, 14, 1));
-	if (data->east[0] != ' ')
-		return (error(data, 14, 2));
-	if (data->west[0] != ' ')
-		return (error(data, 14, 3));
-	if (data->floor[0] != ' ')
-		return (error(data, 14, 4));
-	if (data->ceiling[0] != ' ')
-		return (error(data, 14, 5));
+	int		print;
+	int		count;
+
+	print = 2;
+	count = 0;
+	if (data->north[0] != ' ' && print-- <= 2 && ++count)
+		error(data, 16, 0, print);
+	if (data->south[0] != ' ' && print-- <= 2 && ++count)
+		error(data, 16, 1, print);
+	if (data->east[0] != ' ' && print-- <= 2 && ++count)
+		error(data, 16, 2, print);
+	if (data->west[0] != ' ' && print-- <= 2 && ++count)
+		error(data, 16, 3, print);
+	if (data->floor[0] != ' ' && print-- <= 2 && ++count)
+	 	error(data, 16, 4, print);
+	if (data->ceiling[0] != ' ' && print-- <= 2 && ++count)
+		error(data, 16, 5, print);
+	if (count > 0)
+		return (0);
 	return (1);
 }

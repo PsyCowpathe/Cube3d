@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:47:15 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/12 21:51:45 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/13 19:10:04 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,10 @@
 
 //tmp
 # include <stdio.h>
-# define NORTH "textures/Nwall.xpm"
-# define SOUTH "textures/Swall.xpm"
-# define EAST "textures/Ewall.xpm"
-# define WEST "textures/Wwall.xpm"
 # define SPRITE "textures/sprite.xpm"
 # define SKY "textures/sky.xpm"
 # define HAND "textures/hand.xpm"
 # define REV_SPRITE "textures/reverse_sprite.xpm"
-# define DIRT 0xB68831
 # define ROT 3
 //tmp
 
@@ -194,7 +189,7 @@ int			get_map(t_mlx *data, char **info);
 
 //error
 
-int			error(t_mlx *data, int nb, int line);
+int			error(t_mlx *data, int nb, int line, int print);
 
 //raycasting
 
@@ -248,6 +243,7 @@ void		init_column_draw(t_mlx *data, t_scale *xy, int height, int x);
 long long	get_time(void);
 void		free_all(t_mlx *data);
 int			is_possible(t_mlx *data, float *tmp);
+int			create_trgb(int t, int r, int g, int b);
 
 //sprite_utility
 
