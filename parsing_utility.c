@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 19:15:43 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/13 19:10:06 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/15 16:32:51 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	check_path(t_mlx *data)
 	if (data->west[0] != ' ' && print-- <= 2 && ++count)
 		error(data, 16, 3, print);
 	if (data->floor[0] != ' ' && print-- <= 2 && ++count)
-	 	error(data, 16, 4, print);
+		error(data, 16, 4, print);
 	if (data->ceiling[0] != ' ' && print-- <= 2 && ++count)
 		error(data, 16, 5, print);
 	if (count > 0)

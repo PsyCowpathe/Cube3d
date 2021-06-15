@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/04 14:28:35 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/13 13:39:46 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/15 16:29:44 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	get_first_vert(t_mlx *data, float ray)
 	data->verty = data->py + (data->px - data->vertx) * tan(ray * (M_PI / 180));
 }
 
-void	get_closest_vertical_wall(t_mlx *data, float ray)
+void	get_closest_vertical_wall(t_mlx *da, float ray)
 {
 	float	add;
 	float	less;
@@ -47,58 +47,57 @@ void	get_closest_vertical_wall(t_mlx *data, float ray)
 	if (ray >= 90 && ray < 270)
 		less = 0.0001;
 	add = tan(ray * (M_PI / 180));
-	while ((data->vertx - less) >= 0 && (data->vertx - less) < data->mapx
-		&& data->verty >= 0 && data->verty < data->mapy
-		&& ft_ischar("02", data->map[(int)data->verty][(int)(data->vertx - less)]))
+	while ((da->vertx - less) >= 0 && (da->vertx - less) < da->mapx
+		&& da->verty >= 0 && da->verty < da->mapy
+		&& ft_ischar("02", da->map[(int)da->verty][(int)(da->vertx - less)]))
 	{
 		if ((ray >= 0 && ray < 90) || (ray >= 270 && ray <= 360))
 		{
-			data->vertx = data->vertx + data->cubesize;
-			data->verty = data->verty - add;
+			da->vertx = da->vertx + da->cubesize;
+			da->verty = da->verty - add;
 		}
 		else
 		{
-			data->vertx = data->vertx - data->cubesize;
-			data->verty = data->verty + add;
+			da->vertx = da->vertx - da->cubesize;
+			da->verty = da->verty + add;
 		}
 	}
-	data->vdist = sqrt(pow(data->vertx - data->px, 2)
-		+ pow(data->verty - data->py, 2));
+	da->vdist = sqrt(pow(da->vertx - da->px, 2)
+			+ pow(da->verty - da->py, 2));
 }
 
-void	get_closest_horizontal_wall(t_mlx *data, float ray)
+void	get_closest_horizontal_wall(t_mlx *da, float ray)
 {
 	float	add;
 	float	less;
 
 	less = 0;
 	if (ray >= 0 && ray < 180)
-	   less = 0.0001;	
+		less = 0.0001;
 	add = 1 / tan(ray * (M_PI / 180));
-	while (data->horx >= 0 && data->horx <= data->mapx
-		&& (data->hory - less) >= 0 && (data->hory - less) <= data->mapy
-		&& ft_ischar("02", data->map[(int)(data->hory - less)][(int)data->horx]))
+	while (da->horx >= 0 && da->horx < da->mapx
+		&& (da->hory - less) >= 0 && (da->hory - less) < da->mapy
+		&& ft_ischar("02", da->map[(int)(da->hory - less)][(int)da->horx]))
 	{
 		if ((ray >= 0 && ray < 90) || (ray >= 90 && ray < 180))
 		{
-			data->hory = data->hory - data->cubesize;
-			data->horx = data->horx + add;
+			da->hory = da->hory - da->cubesize;
+			da->horx = da->horx + add;
 		}
 		else
 		{
-			data->hory = data->hory + data->cubesize;
-			data->horx = data->horx - add;
+			da->hory = da->hory + da->cubesize;
+			da->horx = da->horx - add;
 		}
 	}
-	data->hdist = sqrt(pow(data->horx - data->px, 2)
-		+ pow(data->hory - data->py, 2));
+	da->hdist = sqrt(pow(da->horx - da->px, 2)
+			+ pow(da->hory - da->py, 2));
 }
 
 void	get_closest_wall(t_mlx *data, int x, float ray, float patch)
 {
 	float	wallheight;
 	float	distance;
-	int		texture;
 
 	if (data->vdist < data->hdist)
 		distance = data->vdist * cos(patch * (M_PI / 180));
@@ -109,40 +108,5 @@ void	get_closest_wall(t_mlx *data, int x, float ray, float patch)
 		data->vertx -= 0.0001;
 	if (ray >= 0 && ray < 180)
 		data->hory -= 0.0001;
-	if (data->hdist < data->vdist)
-	{
-		data->alldist[x] = data->hdist;
-		if (data->hory >= (int)data->hory + 0.5)
-		{
-			//ft_putstr("texture 1");
-			//dprintf(1, " hdist = %f, vdist = %f ", data->hdist, data->vdist);
-			//dprintf(1, " %f ", data->hory);
-			//dprintf(1, "%f", data->hory + 0.5);
-			texture = 1;
-		}
-		else
-		{
-			//ft_putstr("texture 0");
-			texture = 0;
-		}
-	}
-	else
-	{
-		data->alldist[x] = data->vdist;
-		if (data->vertx >= (int)data->vertx + 0.5)
-		{
-			//ft_putstr("texture 2");
-			//dprintf(1, " hdist = %f, vdist = %f ", data->hdist, data->vdist);
-			//dprintf(1, " %f ", data->hory);
-			//dprintf(1, "%f", data->hory + 0.5);
-			texture = 2;
-		}
-		else
-		{
-			//ft_putstr("texture 3");
-			texture = 3;
-		}
-	}
-	ft_putchar('\n');
-	print_column(data, x, wallheight, texture);
+	print_column(data, x, wallheight, choose_text(data, x));
 }

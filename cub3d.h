@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:47:15 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/13 19:10:04 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/15 20:40:29 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ typedef struct s_mlx
 	char		*south;
 	char		*east;
 	char		*west;
+	int			fcolor;
+	int			ccolor;
 
 	t_sprite	*sprite;
 	int			count;
@@ -187,9 +189,13 @@ int			check_map(t_mlx *data);
 int			get_map_size(t_mlx *data, char **info, int start);
 int			get_map(t_mlx *data, char **info);
 
-//error
+//static_error
 
 int			error(t_mlx *data, int nb, int line, int print);
+
+//dynamique_error
+
+void	advanced_error(t_mlx *data, int nb, int line);
 
 //raycasting
 
@@ -211,10 +217,13 @@ int			keypress(int key, t_mlx *data);
 int			keyrelease(int key, t_mlx *data);
 void		event(t_mlx *data);
 
-//event
+//moov
 
 int			moov_player(t_mlx *data);
 void		moov_camera(t_mlx *data);
+
+//event
+
 void		action(t_mlx *data, t_sprite *sprite);
 int			exit_game(t_mlx *data);
 
@@ -237,13 +246,19 @@ int			shading(float dist, unsigned int rgb);
 float		get_distance(float x1, float y1, float x2, float y2);
 float		angle_range(float angle);
 
-//utility2
+//secondary_utility
 
 void		init_column_draw(t_mlx *data, t_scale *xy, int height, int x);
 long long	get_time(void);
 void		free_all(t_mlx *data);
 int			is_possible(t_mlx *data, float *tmp);
 int			create_trgb(int t, int r, int g, int b);
+
+//third_utility
+
+int	choose_text(t_mlx *data, int x);
+int	end_verif(char *str, int nb, int *i);
+int	hav_path(t_mlx *data, int check);
 
 //sprite_utility
 

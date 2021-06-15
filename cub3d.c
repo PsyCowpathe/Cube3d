@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:46:35 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/13 13:39:46 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/15 17:17:04 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,6 @@ void	raycasting(t_mlx *data)
 		ray = ray + data->gap;
 		x--;
 	}
-	ft_putchar('\n');
-	ft_putchar('\n');
-	ft_putchar('\n');
 }
 
 int	refresh(t_mlx *data)
@@ -95,10 +92,10 @@ void	game_run(t_mlx *data, char *str)
 		return ;
 	if (sprite(data) == 0)
 		data->end = 1;
-	//system("afplay ../../../sound/musique.mp3 -v 0.1 &");
+	system("afplay ../../../sound/musique.mp3 -v 0.1 &");
 	mlx_hook(data->win, 2, 1L << 0, keypress, data);
 	mlx_hook(data->win, 3, 1L << 1, keyrelease, data);
-	mlx_hook(data->win, 17, (1L<<17), exit_game, data);
+	mlx_hook(data->win, 17, (1L << 17), exit_game, data);
 	mlx_loop_hook(data->mlx, &refresh, data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	mlx_loop(data->mlx);

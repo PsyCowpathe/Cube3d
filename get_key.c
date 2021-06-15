@@ -6,11 +6,21 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 17:32:59 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/12 17:49:28 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/15 17:10:44 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	secondary_event(t_mlx *data)
+{
+	if (data->advanced >= 2)
+		moov_sprite(data, data->sprite);
+	if (data->advanced >= 3)
+		life(data, data->sprite);
+	if (data->advanced >= 4)
+		hand(data);
+}
 
 void	event(t_mlx *data)
 {
@@ -33,12 +43,7 @@ void	event(t_mlx *data)
 	raycasting(data);
 	if (sprite(data) == 0)
 		data->end = 1;
-	if (data->advanced >= 2)
-		moov_sprite(data, data->sprite);
-	if (data->advanced >= 3)
-		life(data, data->sprite);
-	if (data->advanced >= 4)
-		hand(data);
+	secondary_event(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 }
 

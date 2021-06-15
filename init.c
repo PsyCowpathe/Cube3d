@@ -114,6 +114,8 @@ int	init_struct(t_mlx *data)
 	data->pheight = WIN_Y / 2;
 	data->alldist = malloc(sizeof(float) * WIN_X);
 	data->frame = 1;
+	data->ccolor = create_trgb(0, data->crgb[0], data->crgb[1], data->crgb[2]);
+	data->fcolor = create_trgb(0, data->frgb[0], data->frgb[1], data->frgb[2]);
 	if (data->alldist == NULL)
 		return (error(data, 8, -1, 1));
 	return (1);

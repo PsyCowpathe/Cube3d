@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 18:44:24 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/13 19:10:07 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/15 17:04:08 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ int	check_map(t_mlx *data)
 		{
 			if (data->map[y][x] != '\0'
 					&& ft_ischar(" 012NEWS", data->map[y][x]) == 0)
-				return (error(data, 10, data->infoline - data->mapy + y + 1, 1));
+				return (error(data, 10, data->infoline
+						- data->mapy + y + 1, 1));
 			x++;
 		}
 		y++;
