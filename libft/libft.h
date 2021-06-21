@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 18:18:44 by agirona           #+#    #+#             */
-/*   Updated: 2021/03/12 17:45:40 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/17 15:06:37 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void				*ft_calloc(size_t count, size_t size);
 void				ft_bzero(void *s, size_t n);
 int					ft_atoi(const char *str);
 char				**ft_split(char const *s, char c);
-char				*ft_itoa(int n);
+char				*ft_itoa(long long n);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char *s, int fd);
@@ -82,4 +82,5 @@ void				ft_putstr_non_printable(char *str);
 int					ft_longlen(long long nb);
 int					ft_abs(int nb);
 int					ft_strcmp(char *s1, char *s2);
+int					new_malloc(void **dst, int type, int len);
 #endif

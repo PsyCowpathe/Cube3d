@@ -6,13 +6,13 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 11:56:10 by agirona           #+#    #+#             */
-/*   Updated: 2020/12/04 07:39:21 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/17 15:20:03 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int		count_word(char *str, char c)
+static int	count_word(char *str, char c)
 {
 	int		i;
 	int		find;
@@ -37,7 +37,7 @@ static int		count_word(char *str, char c)
 	return (count);
 }
 
-static int		get_word_length(char *str, char c, int i)
+static int	get_word_length(char *str, char c, int i)
 {
 	int		len;
 
@@ -50,7 +50,7 @@ static int		get_word_length(char *str, char c, int i)
 	return (len);
 }
 
-static char		**ft_free(int i, char **res)
+static char	**ft_free(int i, char **res)
 {
 	while (i != 0)
 	{
@@ -62,7 +62,7 @@ static char		**ft_free(int i, char **res)
 	return (NULL);
 }
 
-char			**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	int		word;
 	int		i;
@@ -73,15 +73,15 @@ char			**ft_split(char const *s, char c)
 	j = 0;
 	l = 0;
 	word = count_word((char *)s, c);
-	if (!s || !(res = malloc(sizeof(char *) * (word + 1))))
+	if (!s || new_malloc((void *)&res, sizeof(char *), word + 1) == 0)
 		return (0);
 	while (l < word)
 	{
 		i = 0;
 		while (s[j] == c)
 			j++;
-		if (!(res[l] = (char *)malloc(sizeof(char)
-		* (get_word_length((char *)s, c, j) + 1))))
+		if (new_malloc((void *)&res[l], sizeof(char),
+				(get_word_length((char *)s, c, j) + 1)) == 0)
 			return (ft_free(l, res));
 		while (s[j] != c && s[j])
 			res[l][i++] = s[j++];

@@ -6,15 +6,14 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 17:24:55 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/15 20:40:24 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/21 17:44:42 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	moov_player(t_mlx *data)
+int	moov_player(t_mlx *data, float *tmp)
 {
-	float	*tmp;
 	float	centerxy[2];
 	float	pointxy[2];
 	float	direction;

@@ -6,13 +6,13 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 04:49:02 by agirona           #+#    #+#             */
-/*   Updated: 2021/02/04 08:44:18 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/17 14:31:10 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void		print_hex(unsigned char nb)
+static void	print_hex(unsigned char nb)
 {
 	int				tab[2];
 
@@ -29,7 +29,7 @@ static void		print_hex(unsigned char nb)
 		ft_putchar(tab[1] + 48);
 }
 
-void			ft_putstr_non_printable(char *str)
+void	ft_putstr_non_printable(char *str)
 {
 	int		i;
 

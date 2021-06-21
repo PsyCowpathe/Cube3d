@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 15:42:35 by agirona           #+#    #+#             */
-/*   Updated: 2020/12/04 00:47:06 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/21 16:30:12 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,19 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	char		*res;
 
 	i = 0;
+	res = NULL;
 	if (!s)
 		return (NULL);
 	if (start == 0 && len > ft_strlen(s))
 		return (ft_strdup(s));
 	if (start > ft_strlen(s))
 	{
-		if ((res = malloc(sizeof(char) * 1)) == NULL)
+		if (new_malloc((void *)&res, sizeof(char), 1) == 0)
 			return (NULL);
 		res[0] = '\0';
 		return (res);
 	}
-	if ((res = malloc(sizeof(char) * len + 1)) == NULL)
+	if (new_malloc((void *)res, sizeof(char), len + 1) == 0)
 		return (NULL);
 	while (i < len)
 	{

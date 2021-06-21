@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/22 20:27:52 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/15 16:28:33 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/21 17:01:47 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	init_column_draw(t_mlx *data, t_scale *xy, int height, int x)
 			xy->winx = data->xpm[xy->txt].width
 				- fmod(data->verty * xy->len, xy->len);
 	}
+	if (xy->winx == data->xpm[xy->txt].width)
+		xy->winx--;
 	xy->winy = data->pheight + (height / 2);
 	xy->y = data->xpm[xy->txt].height;
 	xy->x = x;

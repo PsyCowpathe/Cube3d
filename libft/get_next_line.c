@@ -6,31 +6,36 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 12:43:53 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/08 21:00:09 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/21 16:40:55 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	newline(char **str, char **save)
+int	newline(char **str, char **save, int *ret)
 {
 	int		i;
 
 	i = 0;
+	*ret = -1;
 	while (*str && str[0][i])
 	{
 		if (str[0][i] == '\n')
 		{
 			str[0][i] = '\0';
 			i++;
-			if ((*save = ft_strdup_leaks(str[0] + i, 0)) == NULL)
+			*save = ft_strdup_leaks(str[0] + i, 0);
+			if (*save == NULL)
 				return (-1);
-			if ((str[0] = ft_strdup_leaks(str[0], 1)) == NULL)
+			str[0] = ft_strdup_leaks(str[0], 1);
+			if (str[0] == NULL)
 				return (-1);
+			*ret = 1;
 			return (1);
 		}
 		i++;
 	}
+	*ret = 0;
 	return (0);
 }
 
@@ -49,27 +54,37 @@ int	freevar(char **var1, char **var2, int ret)
 	return (ret);
 }
 
+int	do_shit(int *ret, char **line, int fd)
+{
+	*ret = -1;
+	*line = NULL;
+	if (fd < 0 || fd > 30)
+		return (-1);
+	return (1);
+}
+
 int	get_next_line(int fd, char **line)
 {
 	int				ret;
 	char			*buff;
 	static char		*save[30] = {NULL};
 
-	ret = -1;
-	*line = NULL;
-	if (fd < 0 || (buff = malloc(sizeof(char) * BUFFER_SIZE + 1)) == NULL)
+	if (do_shit(&ret, line, fd) == -1)
+		return (-1);
+	if (new_malloc((void *)&buff, sizeof(char), BUFFER_SIZE + 1) == 0)
 		return (freevar(&save[fd], NULL, -1));
-	if (save[fd] && (line[0] = ft_strdup_leaks(save[fd], 0)) == NULL)
+	if (save[fd] && dup_norm(&line[0], save[fd], 0) == NULL)
 		return (freevar(&buff, &save[fd], -1));
 	else if (save[fd])
 		freevar(&save[fd], NULL, 0);
-	while (ret != 0 && (ret = newline(line, &save[fd])) == 0)
+	while (ret != 0 && newline(line, &save[fd], &ret) == 0)
 	{
 		ret = read(fd, buff, BUFFER_SIZE);
 		if (ret < 0)
 			return (freevar(&buff, &save[fd], -1));
 		buff[ret] = '\0';
-		if ((line[0] = gnl_strjoin(line[0], buff)) == NULL)
+		line [0] = gnl_strjoin(line[0], buff);
+		if (line[0] == NULL)
 			return (-1);
 	}
 	if (save[fd] && ret != -1)

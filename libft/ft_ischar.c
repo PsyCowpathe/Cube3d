@@ -6,13 +6,13 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 13:03:58 by agirona           #+#    #+#             */
-/*   Updated: 2021/03/12 17:43:14 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/17 14:28:59 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_ischar(const char *str, char c)
+int	ft_ischar(const char *str, char c)
 {
 	int		i;
 

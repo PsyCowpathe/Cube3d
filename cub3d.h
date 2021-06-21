@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 15:47:15 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/15 20:40:29 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/21 20:07:18 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ int			error(t_mlx *data, int nb, int line, int print);
 
 //dynamique_error
 
-void	advanced_error(t_mlx *data, int nb, int line);
+void		advanced_error(t_mlx *data, int nb, int line);
 
 //raycasting
 
@@ -219,7 +219,7 @@ void		event(t_mlx *data);
 
 //moov
 
-int			moov_player(t_mlx *data);
+int			moov_player(t_mlx *data, float *tmp);
 void		moov_camera(t_mlx *data);
 
 //event
@@ -256,9 +256,9 @@ int			create_trgb(int t, int r, int g, int b);
 
 //third_utility
 
-int	choose_text(t_mlx *data, int x);
-int	end_verif(char *str, int nb, int *i);
-int	hav_path(t_mlx *data, int check);
+int			choose_text(t_mlx *data, int x);
+int			end_verif(char *str, int nb, int *i);
+int			hav_path(t_mlx *data, int check);
 
 //sprite_utility
 

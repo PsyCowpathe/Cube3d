@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 16:02:00 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/15 17:03:22 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/21 20:10:13 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,16 @@ int	get_map_and_color(t_mlx *data, int map)
 int	parsing(t_mlx *data, char *str)
 {
 	int		map;
+	int		i;
 
+	i = ft_strlen(str);
+	i -= 4;
+	if (ft_strcmp(str + ft_strlen(str) - 4, ".cub") != 0)
+	{
+		error(data, 20, -1, 0);
+		ft_putstr("Error\nMap file need to be *.cub format.");
+		return (0);
+	}
 	data->info = get_file_size(data, str);
 	if (data->info == NULL)
 		return (error(data, 8, -1, 1));

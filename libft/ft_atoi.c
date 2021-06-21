@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 14:15:49 by agirona           #+#    #+#             */
-/*   Updated: 2021/03/12 17:41:07 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/17 14:20:47 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	conv(const char *str, int i, int neg)
 {
 	long int		tmp;
-	int			res;
+	int				res;
 
 	tmp = 0;
 	res = 0;

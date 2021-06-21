@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 15:29:11 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/07 20:38:55 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/17 15:16:49 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ char	*ft_strdup(const char *s1)
 
 	i = 0;
 	str = NULL;
-	if ((str = ft_calloc(ft_strlen(s1) + 1, 1)) == NULL)
+	str = ft_calloc(ft_strlen(s1) + 1, 1);
+	if (str == NULL)
 		return (NULL);
 	while (s1[i])
 	{

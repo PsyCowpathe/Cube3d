@@ -6,13 +6,13 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 04:58:17 by agirona           #+#    #+#             */
-/*   Updated: 2021/02/04 08:42:41 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/17 14:30:56 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int		ft_check(char *str)
+static int	ft_check(char *str)
 {
 	int		i;
 	int		d;
@@ -38,7 +38,7 @@ static int		ft_check(char *str)
 	return (1);
 }
 
-static void		ft_r_putnbr_base(long int nb, int div, char *base)
+static void	ft_r_putnbr_base(long int nb, int div, char *base)
 {
 	if (nb >= div)
 	{
@@ -48,7 +48,7 @@ static void		ft_r_putnbr_base(long int nb, int div, char *base)
 	}
 }
 
-void			ft_putnbr_base(int nbr, char *base)
+void	ft_putnbr_base(int nbr, char *base)
 {
 	int			div;
 	long int	nb;

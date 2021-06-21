@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/10 12:15:37 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/08 21:00:08 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/21 16:27:13 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,37 @@ char	*ft_strdup_leaks(const char *s1, int leaks)
 		s1 = NULL;
 	}
 	return (str);
+}
+
+char	*dup_norm(char **line, const char *s1, int leaks)
+{
+	char	*str;
+	int		i;
+
+	i = -1;
+	str = (char *)malloc(sizeof(char) * len(s1) + 1);
+	if (str == NULL)
+	{
+		if (leaks == 1)
+			free((char *)s1);
+		line[0] = NULL;
+		return (NULL);
+	}
+	str[0] = '\0';
+	while (s1[++i])
+		str[i] = s1[i];
+	str[i] = '\0';
+	if (leaks == 1)
+	{
+		free((char *)s1);
+		s1 = NULL;
+	}
+	line[0] = str;
+	return (str);
+}
+
+int	new_read(int *ret, int fd, char *buff, int buffer_size)
+{
+	*ret = read(fd, buff, buffer_size);
+	return (*ret);
 }

@@ -1,0 +1,10 @@
+NO ./textures/Nwall.xpm
+SO ./textures/Swall.xpm
+EA ./textures/Ewall.xpm
+WE ./textures/Wwall.xpm
+F 220,255,000
+C 000,0,255
+
+ 1
+1N1
+ 1

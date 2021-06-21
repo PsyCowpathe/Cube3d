@@ -6,13 +6,13 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 06:38:02 by agirona           #+#    #+#             */
-/*   Updated: 2021/02/04 06:39:04 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/17 14:29:23 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_longlen(long long nb)
+int	ft_longlen(long long nb)
 {
 	int		len;
 

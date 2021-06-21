@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 04:56:56 by agirona           #+#    #+#             */
-/*   Updated: 2021/02/04 08:45:06 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/17 15:21:22 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ char	*ft_strncpy(char *dest, char *src, unsigned int n)
 		dest[i] = src[i];
 		i++;
 	}
-	if ((i = ft_strlen(src)) < n)
+	i = ft_strlen(src);
+	if (i < n)
 	{
 		while (i < n)
 			dest[i++] = '\0';

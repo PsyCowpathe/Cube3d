@@ -6,13 +6,13 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 16:26:02 by agirona           #+#    #+#             */
-/*   Updated: 2020/12/04 00:46:52 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/17 15:23:30 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int		ft_isch(const char *str, char c)
+static int	ft_isch(const char *str, char c)
 {
 	int		i;
 
@@ -26,13 +26,13 @@ static int		ft_isch(const char *str, char c)
 	return (0);
 }
 
-static char		*ft_cut(char const *str, int start, int len)
+static char	*ft_cut(char const *str, int start, int len)
 {
 	char	*res;
 	int		i;
 
 	i = 0;
-	if ((res = malloc(sizeof(char) * (len + 1))) == NULL)
+	if (new_malloc((void *)&res, sizeof(char), len + 1) == 0)
 		return (NULL);
 	while (i < len)
 	{
@@ -43,15 +43,15 @@ static char		*ft_cut(char const *str, int start, int len)
 	return (res);
 }
 
-static char		*ft_new(char *res, size_t size)
+static char	*ft_new(char *res, size_t size)
 {
-	if ((res = malloc(sizeof(char) * size)) == NULL)
+	if (new_malloc((void *)&res, sizeof(char), size) == 0)
 		return (NULL);
 	res[0] = '\0';
 	return (res);
 }
 
-char			*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char const *s1, char const *set)
 {
 	size_t	i;
 	size_t	start;

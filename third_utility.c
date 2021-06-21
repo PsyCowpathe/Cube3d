@@ -6,7 +6,7 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 16:20:57 by agirona           #+#    #+#             */
-/*   Updated: 2021/06/15 17:03:38 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/21 17:44:43 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	choose_text(t_mlx *data, int x)
 {
 	int		texture;
 
+	texture = 0;
 	if (data->hdist < data->vdist)
 	{
 		data->alldist[x] = data->hdist;

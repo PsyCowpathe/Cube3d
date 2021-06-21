@@ -6,13 +6,13 @@
 /*   By: agirona <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/10 16:57:25 by agirona           #+#    #+#             */
-/*   Updated: 2021/03/12 16:42:14 by agirona          ###   ########lyon.fr   */
+/*   Updated: 2021/06/17 14:31:44 by agirona          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strcmp(char *s1, char *s2)
+int	ft_strcmp(char *s1, char *s2)
 {
 	int				i;
 	unsigned char	*str1;
