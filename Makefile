@@ -6,7 +6,7 @@
 #    By: agirona <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/21 20:07:53 by agirona           #+#    #+#              #
-#    Updated: 2021/06/21 20:56:46 by agirona          ###   ########lyon.fr    #
+#    Updated: 2021/06/22 16:50:42 by agirona          ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,40 +17,47 @@ SRCS	= cub3d.c parsing.c init.c raycasting.c draw.c dynamique_error.c \
 		  screenshot.c utility.c secondary_utility.c sprite.c sprite_utility.c \
 		  static_error.c third_utility.c
 
-INC		= libft.h
+SRCS_DIR = src
 
-LIBFT = libft/libft.a 
+OBJS	=	$(SRCS:.c=.o)
 
-MLX = mlx/libmlx.a
+OBJS_DIR	= obj
+
+OBJS_PATH	= $(addprefix $(OBJS_DIR)/, $(OBJS))
+
+INC		= include
+
+LIBFT = dependency/libft/libft.a 
+
+MLX = dependency/mlx/libmlx.a
 
 FRAMEWORK = -framework OpenGL -framework Appkit
 
-CFLAGS	= -Wall -Wextra -Werror -Imlx $(FRAMEWORK) -I $(INC)
+CFLAGS	= -Wall -Wextra -Werror -I $(INC)
 
-%.o: %.c ${INC}
-	gcc $(CFLAGS)
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(INC)
+	gcc $(CFLAGS) -c $< -o $@
 
 all: $(NAME)
 
-$(NAME) :	$(LIBFT) $(MLX) ${SRCS}
-			gcc $(CFLAGS) -o $(NAME) $(SRCS) $(LIBFT) $(MLX)
+$(NAME) : 	$(OBJS_PATH) $(LIBFT) $(MLX)
+			gcc $(FRAMEWORK) $(OBJS_PATH) $(LIBFT) $(MLX) -o $(NAME)
 
 $(LIBFT) :	
-			$(MAKE) -C libft
+			$(MAKE) -C dependency/libft
 
 $(MLX) :
-			$(MAKE) -C mlx
+			$(MAKE) -C dependency/mlx
 
 clean:
-			$(MAKE)	-C libft clean
-			$(MAKE)	-C mlx clean
+			rm -f $(OBJS_PATH)
+			$(MAKE)	-C dependency/libft clean
+			$(MAKE)	-C dependency/mlx clean
 
 fclean:		clean
 			rm -f $(NAME)
-			$(MAKE)	-C libft fclean
+			$(MAKE)	-C dependency/libft fclean
 
 re:			fclean all
-			$(MAKE)	-C libft re
-			$(MAKE)	-C mlx re
 
 .PHONY:		all clean fclean re

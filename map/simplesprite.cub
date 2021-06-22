@@ -1,7 +1,7 @@
-NO ./textures/Nwall.xpm
-SO ./textures/Swall.xpm
-EA ./textures/Ewall.xpm
-WE ./textures/Wwall.xpm
+NO ./miscellaneous/textures/Nwall.xpm
+SO ./miscellaneous/textures/Swall.xpm
+EA ./miscellaneous/textures/Ewall.xpm
+WE ./miscellaneous/textures/Wwall.xpm
 F 220,255,000
 C 000,0,255
 
